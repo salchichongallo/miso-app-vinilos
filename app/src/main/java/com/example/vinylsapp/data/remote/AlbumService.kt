@@ -1,4 +1,4 @@
-import com.example.vinylsapp.data.model.Album
+import com.example.vinylsapp.album.models.Album
 import retrofit2.http.GET
 
 interface AlbumService {

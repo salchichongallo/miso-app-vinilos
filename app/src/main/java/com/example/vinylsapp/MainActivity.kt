@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
-import com.example.vinylsapp.data.model.Album
+import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.data.remote.RetrofitServiceFactory
 import com.example.vinylsapp.ui.screens.AlbumScreen
 import kotlinx.coroutines.launch

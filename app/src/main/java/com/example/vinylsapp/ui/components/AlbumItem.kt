@@ -1,7 +1,10 @@
 package com.example.vinylsapp.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,7 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.example.vinylsapp.data.model.Album
+import com.example.vinylsapp.album.models.Album
 
 @Composable
 fun AlbumItem(album: Album) {
@@ -25,8 +28,10 @@ fun AlbumItem(album: Album) {
             modifier = Modifier.size(100.dp),
             contentScale = ContentScale.Crop
         )
-        Text(text = album.name, maxLines = 1, overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodySmall)
+        Text(
+            text = album.name, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodySmall
+        )
         Text(text = album.genre, style = MaterialTheme.typography.bodySmall)
     }
 }

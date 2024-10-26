@@ -1,4 +1,4 @@
-package com.example.vinylsapp.data.model
+package com.example.vinylsapp.album.models
 
 data class Album(
     val id: Int,
