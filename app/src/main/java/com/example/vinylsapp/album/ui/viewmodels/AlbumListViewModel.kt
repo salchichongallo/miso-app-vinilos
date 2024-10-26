@@ -21,7 +21,7 @@ class AlbumListViewModel : ViewModel() {
         load()
     }
 
-    fun load() {
+    private fun load() {
         fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
             try {
