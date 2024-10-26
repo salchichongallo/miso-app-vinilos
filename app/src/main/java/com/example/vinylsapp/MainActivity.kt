@@ -10,8 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
 import com.example.vinylsapp.album.models.Album
+import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.ui.elements.AlbumScreen
-import com.example.vinylsapp.data.remote.RetrofitServiceFactory
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             try {
-                val result = service.getAlbums()
+                val result = service.fetchAlbums()
                 albums = result
                 println(albums)
             } catch (e: Exception) {
