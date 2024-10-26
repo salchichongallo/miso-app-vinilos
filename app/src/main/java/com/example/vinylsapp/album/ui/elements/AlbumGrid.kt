@@ -1,4 +1,4 @@
-package com.example.vinylsapp.ui.components
+package com.example.vinylsapp.album.ui.elements
 
 
 import androidx.compose.foundation.layout.PaddingValues

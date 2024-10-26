@@ -1,4 +1,4 @@
-package com.example.vinylsapp.ui.screens
+package com.example.vinylsapp.album.ui.elements
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vinylsapp.album.models.Album
-import com.example.vinylsapp.ui.components.AlbumGrid
 
 
 @Composable
