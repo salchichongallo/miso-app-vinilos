@@ -1,40 +1,41 @@
 package com.example.vinylsapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.lifecycleScope
-import com.example.vinylsapp.album.models.Album
-import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
-import com.example.vinylsapp.album.ui.elements.AlbumScreen
-import kotlinx.coroutines.launch
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.example.vinylsapp.album.ui.AlbumListActivity
+import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val service = RetrofitServiceFactory.makeAlbumService()
-        var albums by mutableStateOf(listOf<Album>())
-
-        lifecycleScope.launch {
-            try {
-                val result = service.fetchAlbums()
-                albums = result
-                println(albums)
-            } catch (e: Exception) {
-                albums = listOf()
-                println("Error al cargar datos: ${e.message}")
-            }
-
-            setContent {
-                MaterialTheme {
-                    Surface {
-                        AlbumScreen(albums = albums)
+        enableEdgeToEdge()
+        setContent {
+            VinylsAppTheme {
+                Surface {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        Button(
+                            onClick = {
+                                Intent(applicationContext, AlbumListActivity::class.java)
+                                    .also { startActivity(it) }
+                            }
+                        ) {
+                            Text(text = "Álbumes")
+                        }
                     }
                 }
             }
