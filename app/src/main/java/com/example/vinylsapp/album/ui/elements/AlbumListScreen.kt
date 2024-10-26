@@ -13,7 +13,7 @@ import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumScreen(viewModel: AlbumListViewModel) {
+fun AlbumListScreen(viewModel: AlbumListViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
