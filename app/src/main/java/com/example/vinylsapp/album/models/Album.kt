@@ -4,5 +4,5 @@ data class Album(
     val id: Int,
     val name: String,
     val cover: String,
-    val genre: String,
+    val genre: AlbumGenre,
 )

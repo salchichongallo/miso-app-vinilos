@@ -32,6 +32,6 @@ fun AlbumItem(album: Album) {
             text = album.name, maxLines = 1, overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodySmall
         )
-        Text(text = album.genre, style = MaterialTheme.typography.bodySmall)
+        Text(text = album.genre.value, style = MaterialTheme.typography.bodySmall)
     }
 }
