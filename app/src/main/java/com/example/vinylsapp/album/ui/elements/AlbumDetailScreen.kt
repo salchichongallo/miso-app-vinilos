@@ -18,13 +18,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.vinylsapp.album.tracks.models.Track
 import com.example.vinylsapp.album.tracks.ui.elements.AlbumTrackList
+import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumDetailScreen(viewModel: AlbumDetailViewModel) {
+fun AlbumDetailScreen(viewModel: AlbumDetailViewModel, tracksViewModel: TrackListViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -43,9 +43,7 @@ fun AlbumDetailScreen(viewModel: AlbumDetailViewModel) {
                 Column {
                     AlbumCover(album = viewModel.album!!, modifier = Modifier.fillMaxWidth())
                     Box(modifier = Modifier.height(24.dp))
-                    AlbumTrackList(
-                        tracks = listOf(Track(id = 1, name = "Foo", duration = "02:40"))
-                    )
+                    AlbumTrackList(tracks = tracksViewModel.tracks)
                 }
             }
         }
