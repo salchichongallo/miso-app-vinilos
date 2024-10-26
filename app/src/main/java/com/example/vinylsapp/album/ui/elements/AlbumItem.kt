@@ -1,7 +1,10 @@
 package com.example.vinylsapp.album.ui.elements
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,21 +20,21 @@ import com.example.vinylsapp.album.models.Album
 
 @Composable
 fun AlbumItem(album: Album) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .width(100.dp)
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = rememberImagePainter(data = album.cover),
             contentDescription = album.name,
             modifier = Modifier.size(100.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
         Text(
             text = album.name, maxLines = 1, overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier
+                .width(100.dp)
+                .padding(top = 4.dp, bottom = 2.dp),
         )
         Text(text = album.genre.value, style = MaterialTheme.typography.bodySmall)
+        Box(modifier = Modifier.height(24.dp))
     }
 }
