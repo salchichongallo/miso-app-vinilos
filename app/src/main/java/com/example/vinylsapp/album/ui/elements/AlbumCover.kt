@@ -1,7 +1,6 @@
 package com.example.vinylsapp.album.ui.elements
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -18,12 +17,10 @@ import com.example.vinylsapp.R
 import com.example.vinylsapp.album.models.Album
 
 @Composable
-fun AlbumCover(album: Album) {
+fun AlbumCover(album: Album, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
         AsyncImage(
             model = album.cover,
