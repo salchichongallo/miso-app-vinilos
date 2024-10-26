@@ -9,17 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vinylsapp.album.models.Album
+import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 
 
 @Composable
-fun AlbumScreen(albums: List<Album>) {
-
+fun AlbumScreen(viewModel: AlbumListViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Álbumes", fontSize = 24.sp, modifier = Modifier.padding(16.dp))
-        AlbumGrid(albums = albums)
+        AlbumGrid(albums = viewModel.albums)
     }
 }
