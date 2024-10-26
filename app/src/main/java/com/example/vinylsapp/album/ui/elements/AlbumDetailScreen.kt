@@ -13,10 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumDetailScreen() {
+fun AlbumDetailScreen(viewModel: AlbumDetailViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -31,7 +32,9 @@ fun AlbumDetailScreen() {
         }
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            AlbumCover()
+            if (viewModel.album != null) {
+                AlbumCover(album = viewModel.album!!)
+            }
         }
     }
 }
