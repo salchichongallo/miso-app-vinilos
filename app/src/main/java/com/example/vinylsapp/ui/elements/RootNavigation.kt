@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vinylsapp.album.repositories.AlbumRepository
+import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.repositories.TrackRepository
 import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
@@ -24,8 +26,11 @@ import com.example.vinylsapp.ui.theme.VinylsAppTheme
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
-    val albumListViewModel = AlbumListViewModel()
+
+    val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService())
+    val albumListViewModel = AlbumListViewModel(albumRepo)
     val trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+
     VinylsAppTheme {
         NavHost(
             navController = navController,
@@ -59,7 +64,7 @@ fun RootNavigation() {
                 val albumIdInput = navBackStackEntry.arguments?.getString("id")
                 val albumId = albumIdInput?.toIntOrNull()!!
                 AlbumDetailScreen(
-                    viewModel = AlbumDetailViewModel(albumId),
+                    viewModel = AlbumDetailViewModel(albumId = albumId, albumRepo = albumRepo),
                     tracksViewModel = TrackListViewModel(
                         albumId = albumId,
                         trackRepo = trackRepository,
