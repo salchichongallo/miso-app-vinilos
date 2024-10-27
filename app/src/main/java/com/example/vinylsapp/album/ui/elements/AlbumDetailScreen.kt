@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.example.vinylsapp.album.tracks.ui.elements.AlbumTrackList
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
+import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +42,8 @@ fun AlbumDetailScreen(
                     }
                 }
             )
-        }
+        },
+        bottomBar = { VinylsBottomAppBar(navController) }
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
             if (viewModel.album != null) {

@@ -29,13 +29,13 @@ fun RootNavigation() {
     VinylsAppTheme {
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.Albums.name,
+            startDestination = AppRoutes.Albums.value,
         ) {
-            composable(route = AppRoutes.Albums.name) {
+            composable(route = AppRoutes.Albums.value) {
                 AlbumListScreen(viewModel = albumListViewModel, navController = navController)
             }
 
-            composable(route = AppRoutes.Artists.name) {
+            composable(route = AppRoutes.Artists.value) {
                 // TODO: Implement artist list screen
                 Scaffold(
                     bottomBar = { VinylsBottomAppBar(navController) }
@@ -46,7 +46,7 @@ fun RootNavigation() {
                 }
             }
 
-            composable(route = AppRoutes.Login.name) {
+            composable(route = AppRoutes.Login.value) {
                 // TODO: Implement login screen
                 Scaffold { innerPadding ->
                     Surface(modifier = Modifier.padding(innerPadding)) {
@@ -55,7 +55,7 @@ fun RootNavigation() {
                 }
             }
 
-            composable(route = "albums/{id}") { navBackStackEntry ->
+            composable(route = AppRoutes.AlbumDetail.value) { navBackStackEntry ->
                 val albumIdInput = navBackStackEntry.arguments?.getString("id")
                 val albumId = albumIdInput?.toIntOrNull()!!
                 AlbumDetailScreen(

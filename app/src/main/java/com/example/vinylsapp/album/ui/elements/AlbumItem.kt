@@ -24,6 +24,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil3.compose.AsyncImage
 import com.example.vinylsapp.R
 import com.example.vinylsapp.album.models.Album
+import com.example.vinylsapp.models.buildAlbumDetailRoute
 
 @Composable
 fun AlbumItem(album: Album, navController: NavController) {
@@ -31,7 +32,8 @@ fun AlbumItem(album: Album, navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .clickable {
-                navController.navigate("albums/${album.id}") {
+                val detailRoute = buildAlbumDetailRoute(album.id)
+                navController.navigate(detailRoute) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }
