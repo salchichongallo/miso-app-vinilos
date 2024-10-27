@@ -23,13 +23,14 @@ fun VinylsBottomAppBar(navController: NavController) {
             val currentDestination = navBackStackEntry?.destination
 
             topLevelRoutes.forEach { topLevelRoute ->
+                val isSelected = currentDestination?.hierarchy?.any {
+                    it.hasRoute(topLevelRoute.route.value, arguments = null)
+                } == true
                 NavigationBarItem(
                     icon = {
                         Icon(topLevelRoute.icon, contentDescription = null)
                     },
-                    selected = currentDestination?.hierarchy?.any {
-                        it.hasRoute(topLevelRoute.route.name, arguments = null)
-                    } == true,
+                    selected = isSelected,
                     label = { Text(text = topLevelRoute.title) },
                     onClick = {
                         navController.navigate(topLevelRoute.route.name) {

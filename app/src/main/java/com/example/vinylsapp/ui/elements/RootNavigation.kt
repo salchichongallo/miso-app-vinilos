@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vinylsapp.album.repositories.AlbumRepository
+import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.repositories.TrackRepository
 import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
@@ -17,6 +19,7 @@ import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
@@ -24,12 +27,15 @@ import com.example.vinylsapp.ui.theme.VinylsAppTheme
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
-    val albumListViewModel = AlbumListViewModel()
+
+    val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService())
+    val albumListViewModel = AlbumListViewModel(albumRepo)
     val trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+
     VinylsAppTheme {
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.Albums.value,
+            startDestination = AppRoutes.Login.value,
         ) {
             composable(route = AppRoutes.Albums.value) {
                 AlbumListScreen(viewModel = albumListViewModel, navController = navController)
@@ -47,19 +53,14 @@ fun RootNavigation() {
             }
 
             composable(route = AppRoutes.Login.value) {
-                // TODO: Implement login screen
-                Scaffold { innerPadding ->
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        Text("Estamos en login")
-                    }
-                }
+                LoginScreen(navController)
             }
 
             composable(route = AppRoutes.AlbumDetail.value) { navBackStackEntry ->
                 val albumIdInput = navBackStackEntry.arguments?.getString("id")
                 val albumId = albumIdInput?.toIntOrNull()!!
                 AlbumDetailScreen(
-                    viewModel = AlbumDetailViewModel(albumId),
+                    viewModel = AlbumDetailViewModel(albumId = albumId, albumRepo = albumRepo),
                     tracksViewModel = TrackListViewModel(
                         albumId = albumId,
                         trackRepo = trackRepository,
