@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +29,7 @@ fun TrackItem(track: Track) {
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                Icons.Filled.PlayArrow,
+                Icons.Filled.MusicNote,
                 contentDescription = null,
                 modifier = Modifier.size(32.dp),
             )
