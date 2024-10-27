@@ -24,7 +24,7 @@ fun AlbumListScreen(viewModel: AlbumListViewModel, navController: NavController)
         bottomBar = { VinylsBottomAppBar(navController) }
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            AlbumGrid(albums = viewModel.albums)
+            AlbumGrid(albums = viewModel.albums, navController = navController)
         }
     }
 }

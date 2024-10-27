@@ -48,6 +48,15 @@ fun RootNavigation() {
                     }
                 }
             }
+
+            composable(route = "albums/{id}") { navBackStackEntry ->
+                val albumId = navBackStackEntry.arguments?.getString("id")
+                Scaffold { innerPadding ->
+                    Surface(modifier = Modifier.padding(innerPadding)) {
+                        Text("Estamos en detalle de album" + albumId)
+                    }
+                }
+            }
         }
     }
 }

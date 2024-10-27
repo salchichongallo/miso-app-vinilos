@@ -19,17 +19,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil3.compose.AsyncImage
 import com.example.vinylsapp.R
 import com.example.vinylsapp.album.models.Album
 
 @Composable
-fun AlbumItem(album: Album) {
+fun AlbumItem(album: Album, navController: NavController) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .clickable {
-                println(album.name)
+                navController.navigate("albums/${album.id}") {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

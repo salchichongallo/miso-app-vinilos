@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 import com.example.vinylsapp.album.models.Album
 
 @Composable
-fun AlbumGrid(albums: List<Album>) {
+fun AlbumGrid(albums: List<Album>, navController: NavController) {
     if (albums.isEmpty()) {
 
         Column(
@@ -34,7 +35,7 @@ fun AlbumGrid(albums: List<Album>) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(albums.size) { index ->
-                AlbumItem(album = albums[index])
+                AlbumItem(album = albums[index], navController = navController)
             }
         }
     }
