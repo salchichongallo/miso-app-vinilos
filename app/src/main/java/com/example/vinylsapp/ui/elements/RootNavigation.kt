@@ -35,7 +35,7 @@ fun RootNavigation() {
     VinylsAppTheme {
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.Albums.value,
+            startDestination = AppRoutes.Login.value,
         ) {
             composable(route = AppRoutes.Albums.value) {
                 AlbumListScreen(viewModel = albumListViewModel, navController = navController)
