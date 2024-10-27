@@ -19,6 +19,7 @@ import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
@@ -52,12 +53,7 @@ fun RootNavigation() {
             }
 
             composable(route = AppRoutes.Login.value) {
-                // TODO: Implement login screen
-                Scaffold { innerPadding ->
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        Text("Estamos en login")
-                    }
-                }
+                LoginScreen(navController)
             }
 
             composable(route = AppRoutes.AlbumDetail.value) { navBackStackEntry ->
