@@ -16,11 +16,6 @@
         android:theme="@style/Theme.VinylsApp"
         tools:targetApi="31">
         <activity
-            android:name=".album.ui.AlbumListActivity"
-            android:exported="false"
-            android:label="@string/title_activity_album_list"
-            android:theme="@style/Theme.VinylsApp" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

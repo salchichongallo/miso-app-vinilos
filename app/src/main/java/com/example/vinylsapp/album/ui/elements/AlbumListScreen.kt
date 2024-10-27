@@ -9,18 +9,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumScreen(viewModel: AlbumListViewModel) {
+fun AlbumListScreen(viewModel: AlbumListViewModel, navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(title = { Text("Álbumes") })
-        }) { innerPadding ->
+        },
+        bottomBar = { VinylsBottomAppBar(navController) }
+    ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            AlbumGrid(albums = viewModel.albums)
+            AlbumGrid(albums = viewModel.albums, navController = navController)
         }
     }
 }

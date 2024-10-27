@@ -5,4 +5,5 @@ data class Album(
     val name: String,
     val cover: String,
     val genre: AlbumGenre,
+    val releaseDate: String,
 )
