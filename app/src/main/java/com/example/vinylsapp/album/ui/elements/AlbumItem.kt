@@ -27,7 +27,6 @@ import com.example.vinylsapp.album.models.Album
 
 @Composable
 fun AlbumItem(album: Album, navController: NavController) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

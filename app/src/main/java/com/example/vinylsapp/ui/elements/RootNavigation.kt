@@ -10,7 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vinylsapp.album.tracks.repositories.TrackRepository
+import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
+import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
+import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
+import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
@@ -20,6 +25,7 @@ import com.example.vinylsapp.ui.theme.VinylsAppTheme
 fun RootNavigation() {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel()
+    val trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
     VinylsAppTheme {
         NavHost(
             navController = navController,
@@ -50,12 +56,16 @@ fun RootNavigation() {
             }
 
             composable(route = "albums/{id}") { navBackStackEntry ->
-                val albumId = navBackStackEntry.arguments?.getString("id")
-                Scaffold { innerPadding ->
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        Text("Estamos en detalle de album" + albumId)
-                    }
-                }
+                val albumIdInput = navBackStackEntry.arguments?.getString("id")
+                val albumId = albumIdInput?.toIntOrNull()!!
+                AlbumDetailScreen(
+                    viewModel = AlbumDetailViewModel(albumId),
+                    tracksViewModel = TrackListViewModel(
+                        albumId = albumId,
+                        trackRepo = trackRepository,
+                    ),
+                    navController = navController,
+                )
             }
         }
     }
