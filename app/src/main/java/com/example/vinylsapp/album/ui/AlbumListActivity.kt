@@ -4,17 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.vinylsapp.album.ui.elements.AlbumListScreen
-import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import androidx.compose.material3.Text
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
+// TODO: Eliminar activity
 class AlbumListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             VinylsAppTheme {
-                AlbumListScreen(viewModel = AlbumListViewModel())
+                Text("AlbumListActivity")
             }
         }
     }
