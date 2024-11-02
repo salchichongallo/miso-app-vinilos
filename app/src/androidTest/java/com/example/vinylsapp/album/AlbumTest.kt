@@ -1,12 +1,16 @@
 package com.example.vinylsapp.album
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.vinylsapp.MainActivity
+import com.example.vinylsapp.album.repositories.AlbumRepository
+import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
+import com.example.vinylsapp.album.tracks.repositories.TrackRepository
+import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.login.LoginPom
+import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +23,7 @@ class AlbumTest {
     private lateinit var albumList: AlbumScreenPom
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setUp() {
@@ -29,6 +33,14 @@ class AlbumTest {
 
     @Test
     fun shouldNavigateToTheSelectedAlbumDetail() {
+        // Start the app
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
+                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+            )
+        }
+
         login.loginAsGuess()
         val album = albumList.albumAt(index = 0)
 
@@ -53,6 +65,14 @@ class AlbumTest {
 
     @Test
     fun shouldSelectAnotherAlbum() {
+        // Start the app
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
+                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+            )
+        }
+
         login.loginAsGuess()
         val album1 = albumList.albumAt(index = 0)
         val detail1 = album1.click()
@@ -70,4 +90,6 @@ class AlbumTest {
         detail2.year().assertIsDisplayed()
 
     }
+
+
 }
