@@ -7,9 +7,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.models.AlbumGenre
-import com.example.vinylsapp.album.repositories.AlbumRepository
 import com.example.vinylsapp.album.repositories.IAlbumRepository
-import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.models.Track
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import com.example.vinylsapp.login.LoginPom
@@ -120,9 +118,16 @@ class AlbumTest {
     @Test
     fun selectedAlbumWithoutTracks() {
         // Start the app
+        val albumMock = Album(
+            id = 100,
+            name = "3 Buscando América",
+            cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
+            genre = AlbumGenre.SALSA,
+            releaseDate = "1984-08-01T00:00:00.000Z"
+        )
         composeTestRule.setContent {
             RootNavigation(
-                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
+                albumRepo = AlbumRepositoryMock(listOf(albumMock)),
                 trackRepository = EmptyTrackRepository(),
             )
         }
