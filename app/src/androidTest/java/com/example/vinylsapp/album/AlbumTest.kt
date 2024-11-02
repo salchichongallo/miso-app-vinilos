@@ -7,6 +7,8 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.repositories.AlbumRepository
 import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
+import com.example.vinylsapp.album.tracks.models.Track
+import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import com.example.vinylsapp.album.tracks.repositories.TrackRepository
 import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.login.LoginPom
@@ -95,15 +97,21 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
-                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+                trackRepository = EmptyTrackRepository(),
             )
         }
 
         login.loginAsGuess()
 
-        val album = albumList.albumAt(index = 2)
+        val album = albumList.albumAt(index = 0)
         val detail = album.click()
         detail.screen().assertIsDisplayed()
         detail.verifyEmptyTracks()
+    }
+}
+
+class EmptyTrackRepository : ITrackRepository {
+    override suspend fun getAll(albumId: Int): List<Track> {
+        return listOf()
     }
 }
