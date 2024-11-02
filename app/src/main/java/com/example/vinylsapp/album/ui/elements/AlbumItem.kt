@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,7 +28,7 @@ import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.models.buildAlbumDetailRoute
 
 @Composable
-fun AlbumItem(album: Album, navController: NavController) {
+fun AlbumItem(album: Album, navController: NavController, index: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,14 +62,16 @@ fun AlbumItem(album: Album, navController: NavController) {
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
                     .width(100.dp)
-                    .padding(top = 4.dp, bottom = 2.dp),
+                    .padding(top = 4.dp, bottom = 2.dp)
+                    .testTag("albumListItem_title_$index"),
             )
             Text(
                 text = album.genre.value,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Left
+                textAlign = TextAlign.Left,
+                modifier = Modifier.testTag("albumListItem_genre_$index"),
             )
             Box(modifier = Modifier.height(12.dp))
         }

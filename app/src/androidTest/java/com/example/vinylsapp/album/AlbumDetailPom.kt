@@ -1,12 +1,11 @@
 package com.example.vinylsapp.album
 
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.example.vinylsapp.MainActivity
 
 class AlbumDetailPom(
-    val rule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
+    val rule: ComposeTestRule,
 ) {
 
     fun screen() = rule.onNodeWithTag("AlbumDetailScreen")
@@ -19,5 +18,11 @@ class AlbumDetailPom(
 
     fun cover() = rule.onNodeWithTag("AlbumCover")
 
+    fun hasTitle(value: String) {
+        title().assertTextEquals(value)
+    }
 
+    fun hasGenre(value: String) {
+        genre().assertTextEquals(value)
+    }
 }

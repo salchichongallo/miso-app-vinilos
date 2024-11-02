@@ -1,7 +1,6 @@
 package com.example.vinylsapp.album
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.MainActivity
@@ -27,24 +26,25 @@ class AlbumTest {
     }
 
     @Test
-    fun navigateAlbumDetail() {
-        val albumTitle = "Buscando América"
-        val albumGenre = "Salsa"
-
+    fun shouldNavigateToTheSelectedAlbumDetail() {
         login.loginAsGuess()
-        albumList.selectAlbumItem(albumTitle)
+        val album = albumList.albumAt(index = 0)
 
-        val albumDetail = AlbumDetailPom(composeTestRule)
-        albumDetail.screen().assertIsDisplayed()
-        albumDetail.cover().assertIsDisplayed()
-        albumDetail.title().assertIsDisplayed()
-        albumDetail.title().assertIsDisplayed().assertTextEquals(albumTitle)
-        albumDetail.genre().assertIsDisplayed()
-        albumDetail.genre().assertTextEquals(albumGenre)
-        albumDetail.year().assertIsDisplayed()
+        val title = album.getTitle()
+        val genre = album.getGenre()
 
+        album.hasTitle(title)
+        val detail = album.click()
 
+        detail.screen().assertIsDisplayed()
+        detail.cover().assertIsDisplayed()
+
+        detail.title().assertIsDisplayed()
+        detail.hasTitle(title)
+
+        detail.genre().assertIsDisplayed()
+        detail.hasGenre(genre)
+
+        detail.year().assertIsDisplayed()
     }
-
-
 }
