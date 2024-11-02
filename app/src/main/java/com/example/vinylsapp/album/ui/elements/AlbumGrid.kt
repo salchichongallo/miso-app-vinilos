@@ -35,7 +35,7 @@ fun AlbumGrid(albums: List<Album>, navController: NavController) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(albums.size) { index ->
-                AlbumItem(album = albums[index], navController = navController)
+                AlbumItem(album = albums[index], navController = navController, index = index)
             }
         }
     }

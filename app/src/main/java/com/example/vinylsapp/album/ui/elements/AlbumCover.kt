@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,26 +27,34 @@ fun AlbumCover(album: Album, modifier: Modifier = Modifier) {
             model = album.cover,
             error = painterResource(R.drawable.default_album_cover),
             contentDescription = null,
-            modifier = Modifier.size(250.dp),
+            modifier = Modifier
+                .size(250.dp)
+                .testTag("AlbumCover"),
             contentScale = ContentScale.Crop,
         )
         Text(
             text = album.name,
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .testTag("AlbumTitle"),
             textAlign = TextAlign.Center,
         )
         Text(
             text = album.genre.value,
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .testTag("AlbumGenre"),
         )
 
         val year = album.releaseDate.slice(0..3)
         Text(
             text = year,
             style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .testTag("AlbumYear"),
         )
     }
 }
