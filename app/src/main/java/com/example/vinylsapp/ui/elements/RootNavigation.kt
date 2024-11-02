@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.vinylsapp.album.repositories.AlbumRepository
-import com.example.vinylsapp.album.tracks.repositories.TrackRepository
+import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
@@ -23,7 +23,7 @@ import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
 @SuppressLint("RestrictedApi")
 @Composable
-fun RootNavigation(albumRepo: AlbumRepository, trackRepository: TrackRepository) {
+fun RootNavigation(albumRepo: AlbumRepository, trackRepository: ITrackRepository) {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel(albumRepo)
 
