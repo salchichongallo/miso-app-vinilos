@@ -7,21 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.repositories.IAlbumRepository
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AlbumListViewModel(private val albumRepo: IAlbumRepository) : ViewModel() {
     var albums by mutableStateOf(listOf<Album>())
-
-    private var fetchJob: Job? = null
 
     init {
         load()
     }
 
     private fun load() {
-        fetchJob?.cancel()
-        fetchJob = viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 albums = albumRepo.getAll()
             } catch (e: Exception) {
