@@ -25,14 +25,13 @@ fun AlbumTrackList(tracks: List<Track>) {
         )
         if (tracks.isEmpty()) {
             Text(
-                "No existen canciones asociadas álbum",
+                "No existen canciones asociadas al álbum",
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
                 style = MaterialTheme.typography.titleMedium,
-
-                )
+            )
         } else {
             LazyColumn {
                 items(tracks) {

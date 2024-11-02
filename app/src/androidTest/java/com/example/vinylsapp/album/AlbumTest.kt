@@ -62,7 +62,6 @@ class AlbumTest {
         detail.year().assertIsDisplayed()
     }
 
-
     @Test
     fun shouldSelectAnotherAlbum() {
         // Start the app
@@ -88,8 +87,23 @@ class AlbumTest {
         detail2.title().assertIsDisplayed()
         detail2.genre().assertIsDisplayed()
         detail2.year().assertIsDisplayed()
-
     }
 
+    @Test
+    fun selectedAlbumWithoutTracks() {
+        // Start the app
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
+                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+            )
+        }
 
+        login.loginAsGuess()
+
+        val album = albumList.albumAt(index = 2)
+        val detail = album.click()
+        detail.screen().assertIsDisplayed()
+        detail.verifyEmptyTracks()
+    }
 }
