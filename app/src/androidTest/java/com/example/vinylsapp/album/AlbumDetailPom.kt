@@ -20,16 +20,23 @@ class AlbumDetailPom(
 
     fun cover() = rule.onNodeWithTag("AlbumCover")
 
-    fun hasTitle(value: String) {
+    fun hasTitle(value: String): AlbumDetailPom {
         title().assertTextEquals(value)
+        return this
     }
 
-    fun hasGenre(value: String) {
+    fun hasGenre(value: String): AlbumDetailPom {
         genre().assertTextEquals(value)
+        return this
     }
 
     fun verifyEmptyTracks() {
         val emptyTracksMessage = rule.onNodeWithText("No existen canciones asociadas al álbum")
         emptyTracksMessage.assertIsDisplayed()
+    }
+
+    fun hasYear(value: String): AlbumDetailPom {
+        year().assertTextEquals(value)
+        return this
     }
 }

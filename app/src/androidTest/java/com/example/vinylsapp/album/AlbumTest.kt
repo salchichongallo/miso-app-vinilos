@@ -5,7 +5,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.vinylsapp.album.models.Album
+import com.example.vinylsapp.album.models.AlbumGenre
 import com.example.vinylsapp.album.repositories.AlbumRepository
+import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.models.Track
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
@@ -13,6 +16,7 @@ import com.example.vinylsapp.album.tracks.repositories.TrackRepository
 import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.login.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,35 +37,43 @@ class AlbumTest {
         albumList = AlbumScreenPom(composeTestRule)
     }
 
+    @After
+    fun sleep() {
+        Thread.sleep(2000)
+    }
+
     @Test
     fun shouldNavigateToTheSelectedAlbumDetail() {
         // Start the app
+        val album = Album(
+            id = 100,
+            name = "3 Buscando América",
+            cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
+            genre = AlbumGenre.SALSA,
+            releaseDate = "1984-08-01T00:00:00.000Z"
+        )
+        val albumRepo = AlbumRepositoryMock(listOf(album))
         composeTestRule.setContent {
             RootNavigation(
-                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
-                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+                albumRepo = albumRepo,
+                trackRepository = EmptyTrackRepository()
             )
         }
 
         login.loginAsGuess()
-        val album = albumList.albumAt(index = 0)
+        val albumItem = albumList.firstAlbum()
 
-        val title = album.getTitle()
-        val genre = album.getGenre()
-
-        album.hasTitle(title)
-        val detail = album.click()
+        albumItem.hasTitle(album.name)
+        albumItem.hasGenre(album.genre.value)
+        val detail = albumItem.click()
 
         detail.screen().assertIsDisplayed()
         detail.cover().assertIsDisplayed()
 
-        detail.title().assertIsDisplayed()
-        detail.hasTitle(title)
-
-        detail.genre().assertIsDisplayed()
-        detail.hasGenre(genre)
-
-        detail.year().assertIsDisplayed()
+        detail
+            .hasTitle(album.name)
+            .hasGenre(album.genre.value)
+            .hasYear("1984")
     }
 
     @Test
@@ -75,7 +87,7 @@ class AlbumTest {
         }
 
         login.loginAsGuess()
-        val album1 = albumList.albumAt(index = 0)
+        val album1 = albumList.firstAlbum()
         val detail1 = album1.click()
 
         detail1.screen().assertIsDisplayed()
@@ -103,10 +115,24 @@ class AlbumTest {
 
         login.loginAsGuess()
 
-        val album = albumList.albumAt(index = 0)
+        val album = albumList.firstAlbum()
         val detail = album.click()
         detail.screen().assertIsDisplayed()
         detail.verifyEmptyTracks()
+    }
+}
+
+class AlbumRepositoryMock(private val albums: List<Album>) : IAlbumRepository {
+    override suspend fun getAll(): List<Album> {
+        return albums
+    }
+
+    override suspend fun getOne(albumId: Int): Album {
+        val album = albums.find { it.id == albumId }
+        if (album == null) {
+            throw Exception("The given album id '$albumId' was not found")
+        }
+        return album
     }
 }
 

@@ -1,7 +1,5 @@
 package com.example.vinylsapp.album
 
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -22,15 +20,8 @@ class AlbumListItemPom(private val rule: ComposeTestRule, index: Int) {
         return AlbumDetailPom(rule)
     }
 
-    fun getTitle(): String {
-        val node = titleNode.fetchSemanticsNode()
-        val text = node.config.getOrNull(SemanticsProperties.Text)?.firstOrNull()?.text ?: ""
-        return text
-    }
-
-    fun getGenre(): String {
-        val node = genreNode.fetchSemanticsNode()
-        val text = node.config.getOrNull(SemanticsProperties.Text)?.firstOrNull()?.text ?: ""
-        return text
+    fun hasGenre(genre: String): AlbumListItemPom {
+        genreNode.assertTextEquals(genre)
+        return this
     }
 }
