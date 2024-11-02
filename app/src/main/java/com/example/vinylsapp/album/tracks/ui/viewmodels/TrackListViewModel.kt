@@ -6,11 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.album.tracks.models.Track
-import com.example.vinylsapp.album.tracks.repositories.TrackRepository
+import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class TrackListViewModel(private val trackRepo: TrackRepository, private val albumId: Int) :
+class TrackListViewModel(private val trackRepo: ITrackRepository, private val albumId: Int) :
     ViewModel() {
     var tracks by mutableStateOf(listOf<Track>())
 
