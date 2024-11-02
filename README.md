@@ -1,13 +1,12 @@
 # VinylsApp - Proyecto Kotlin para Android Studio
 
-VinylsApp es una aplicación móvil desarrollada en Kotlin y ejecutada en Android Studio como proyecto de Maestría. Antes de iniciar la aplicación, es necesario tener en funcionamiento un contenedor Docker que ejecute la API del backend de manera local.
+VinylsApp es una aplicación móvil desarrollada en Kotlin y ejecutada en Android Studio como proyecto de Maestría.
 
 ## Requisitos previos
 
 Asegúrate de tener los siguientes requisitos instalados en tu sistema:
 
 - [Android Studio](https://developer.android.com/studio)
-- [Docker](https://www.docker.com/get-started)
 - Kotlin SDK configurado en Android Studio
 
 ## Configuración e instalación
