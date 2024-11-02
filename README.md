@@ -18,11 +18,15 @@ git clone https://github.com/salchichongallo/miso-app-vinilos.git
 cd miso-app-vinilos
 ```
 
-### 2. Levanta tu api en Docker de forma local.
-Es importante tener la API ejecutándose en Docker antes de lanzar la aplicación. Sigue estos pasos para iniciarla:
+### 2. Configuración de API
 
-1. Asegúrate de que Docker esté en ejecución.
-2. Confirma que la API esté ejecutándose en http://localhost:3000/
+Puedes configurar la URL de la API modificando la constante `API_BASE_URL` ubicada en `app/src/main/java/com/example/vinylsapp/AppConstants.kt`.
+Por defecto apunta a una API en Heroku, pero puedes actualizarla para con efectos de pruebas.
+
+Asegúrate de que el de la constante finalice en `/` (slash). Ejemplo:
+```
+const val API_BASE_URL = "http://10.0.2.2:3000/"
+```
 
 ### 3. Configura y ejecuta el proyecto en Android Studio
 1. Abre Android Studio.
