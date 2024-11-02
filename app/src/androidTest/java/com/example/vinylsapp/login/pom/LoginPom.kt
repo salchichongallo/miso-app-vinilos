@@ -1,4 +1,4 @@
-package com.example.vinylsapp.login
+package com.example.vinylsapp.login.pom
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithText

@@ -1,4 +1,4 @@
-package com.example.vinylsapp.album
+package com.example.vinylsapp.album.pom
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 

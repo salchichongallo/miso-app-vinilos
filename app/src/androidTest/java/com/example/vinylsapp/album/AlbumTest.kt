@@ -5,12 +5,12 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.vinylsapp.album.mocks.AlbumRepositoryMock
+import com.example.vinylsapp.album.mocks.EmptyTrackRepository
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.models.AlbumGenre
-import com.example.vinylsapp.album.repositories.IAlbumRepository
-import com.example.vinylsapp.album.tracks.models.Track
-import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
-import com.example.vinylsapp.login.LoginPom
+import com.example.vinylsapp.album.pom.AlbumScreenPom
+import com.example.vinylsapp.login.pom.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
 import org.junit.Before
@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class AlbumTest {
-
     private lateinit var login: LoginPom
     private lateinit var albumList: AlbumScreenPom
 
@@ -138,25 +137,5 @@ class AlbumTest {
         val detail = album.click()
         detail.screen().assertIsDisplayed()
         detail.verifyEmptyTracks()
-    }
-}
-
-class AlbumRepositoryMock(private val albums: List<Album>) : IAlbumRepository {
-    override suspend fun getAll(): List<Album> {
-        return albums
-    }
-
-    override suspend fun getOne(albumId: Int): Album {
-        val album = albums.find { it.id == albumId }
-        if (album == null) {
-            throw Exception("The given album id '$albumId' was not found")
-        }
-        return album
-    }
-}
-
-class EmptyTrackRepository : ITrackRepository {
-    override suspend fun getAll(albumId: Int): List<Track> {
-        return listOf()
     }
 }
