@@ -2,6 +2,8 @@ package com.example.vinylsapp.album
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.MainActivity
 import com.example.vinylsapp.login.LoginPom
@@ -46,5 +48,26 @@ class AlbumTest {
         detail.hasGenre(genre)
 
         detail.year().assertIsDisplayed()
+    }
+
+
+    @Test
+    fun shouldSelectAnotherAlbum() {
+        login.loginAsGuess()
+        val album1 = albumList.albumAt(index = 0)
+        val detail1 = album1.click()
+
+        detail1.screen().assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Regresar").performClick()
+
+        val album2 = albumList.albumAt(index = 1)
+        val detail2 = album2.click()
+
+        detail2.screen().assertIsDisplayed()
+        detail2.cover().assertIsDisplayed()
+        detail2.title().assertIsDisplayed()
+        detail2.genre().assertIsDisplayed()
+        detail2.year().assertIsDisplayed()
+
     }
 }
