@@ -12,8 +12,6 @@ import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.models.Track
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
-import com.example.vinylsapp.album.tracks.repositories.TrackRepository
-import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
 import com.example.vinylsapp.login.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
@@ -52,10 +50,9 @@ class AlbumTest {
             genre = AlbumGenre.SALSA,
             releaseDate = "1984-08-01T00:00:00.000Z"
         )
-        val albumRepo = AlbumRepositoryMock(listOf(album))
         composeTestRule.setContent {
             RootNavigation(
-                albumRepo = albumRepo,
+                albumRepo = AlbumRepositoryMock(listOf(album)),
                 trackRepository = EmptyTrackRepository()
             )
         }
@@ -79,28 +76,45 @@ class AlbumTest {
     @Test
     fun shouldSelectAnotherAlbum() {
         // Start the app
+        val albumMock1 = Album(
+            id = 100,
+            name = "3 Buscando América",
+            cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
+            genre = AlbumGenre.SALSA,
+            releaseDate = "1984-08-01T00:00:00.000Z",
+        )
+        val albumMock2 = Album(
+            id = 101,
+            name = "Poeta del pueblo",
+            cover = "https://cdn.shopify.com/s/files/1/0275/3095/products/image_4931268b-7acf-4702-9c55-b2b3a03ed999_1024x1024.jpg",
+            genre = AlbumGenre.SALSA,
+            releaseDate = "2024-08-01T00:00:00.000Z",
+        )
         composeTestRule.setContent {
             RootNavigation(
-                albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService()),
-                trackRepository = TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+                albumRepo = AlbumRepositoryMock(listOf(albumMock1, albumMock2)),
+                trackRepository = EmptyTrackRepository(),
             )
         }
 
         login.loginAsGuess()
-        val album1 = albumList.firstAlbum()
+        val album1 = albumList.albumAt(index = 0)
         val detail1 = album1.click()
 
         detail1.screen().assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Regresar").performClick()
 
+        // Next album
         val album2 = albumList.albumAt(index = 1)
         val detail2 = album2.click()
 
         detail2.screen().assertIsDisplayed()
         detail2.cover().assertIsDisplayed()
-        detail2.title().assertIsDisplayed()
-        detail2.genre().assertIsDisplayed()
-        detail2.year().assertIsDisplayed()
+
+        detail2
+            .hasTitle(albumMock2.name)
+            .hasGenre(albumMock2.genre.value)
+            .hasYear("2024")
     }
 
     @Test
