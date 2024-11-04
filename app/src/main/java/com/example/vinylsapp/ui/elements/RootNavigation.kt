@@ -12,16 +12,25 @@ import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import com.example.vinylsapp.artist.repositories.ArtistRepository
+import com.example.vinylsapp.artist.repositories.IArtistRepository
+import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
+import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
 
 @SuppressLint("RestrictedApi")
 @Composable
-fun RootNavigation(albumRepo: IAlbumRepository, trackRepository: ITrackRepository) {
+fun RootNavigation(
+    albumRepo: IAlbumRepository,
+    trackRepository: ITrackRepository,
+    artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
+) {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel(albumRepo)
+    val artistListViewModel = ArtistListViewModel(artistRepo = artistRepository)
 
     VinylsAppTheme {
         NavHost(
@@ -33,7 +42,7 @@ fun RootNavigation(albumRepo: IAlbumRepository, trackRepository: ITrackRepositor
             }
 
             composable(route = AppRoutes.Artists.value) {
-                ArtistListScreen(navController = navController)
+                ArtistListScreen(viewModel = artistListViewModel, navController = navController)
             }
 
             composable(route = AppRoutes.Login.value) {

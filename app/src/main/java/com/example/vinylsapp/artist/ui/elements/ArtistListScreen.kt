@@ -14,11 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArtistListScreen(navController: NavController) {
+fun ArtistListScreen(viewModel: ArtistListViewModel, navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
