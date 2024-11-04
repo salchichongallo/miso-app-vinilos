@@ -29,6 +29,8 @@ fun ArtistListScreen(viewModel: ArtistListViewModel, navController: NavControlle
                 ArtistListItems(artists = viewModel.artists)
             } else if (viewModel.loading) {
                 Loader()
+            } else {
+                EmptyArtists(onRetry = { viewModel.retry() })
             }
         }
     }

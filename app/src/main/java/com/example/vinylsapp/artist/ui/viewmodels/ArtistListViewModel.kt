@@ -14,6 +14,10 @@ class ArtistListViewModel(private val artistRepo: IArtistRepository) : ViewModel
     var loading by mutableStateOf(false)
 
     init {
+        retry()
+    }
+
+    fun retry() {
         viewModelScope.launch {
             load()
         }
