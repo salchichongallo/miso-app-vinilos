@@ -12,6 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
+import com.example.vinylsapp.album.tracks.ui.elements.TrackCreateScreen
+import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackCreateViewModel
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
@@ -61,6 +63,19 @@ fun RootNavigation(albumRepo: IAlbumRepository, trackRepository: ITrackRepositor
                         trackRepo = trackRepository,
                     ),
                     navController = navController,
+                )
+            }
+
+            composable(route = AppRoutes.TrackCreate.value) {navBackStackEntry ->
+                val albumIdInput = navBackStackEntry.arguments?.getString("id")
+                val albumId = albumIdInput?.toIntOrNull()!!
+                TrackCreateScreen(
+                    viewModel = TrackCreateViewModel(
+                        albumId = albumId,
+                        trackRepo = trackRepository,
+                        albumRepo = albumRepo
+                    ),
+                    navController,
                 )
             }
         }

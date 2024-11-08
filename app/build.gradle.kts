@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.vinylsapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.vinylsapp"
@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material3.android)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.core)
     testImplementation(libs.junit)

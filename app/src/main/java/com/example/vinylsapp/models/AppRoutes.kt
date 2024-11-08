@@ -10,6 +10,7 @@ enum class AppRoutes(val value: String) {
     Artists("artists"),
     Login("login"),
     AlbumDetail("albums/{id}"),
+    TrackCreate("/albums/{id}/track")
 }
 
 val topLevelRoutes = listOf(
@@ -19,6 +20,11 @@ val topLevelRoutes = listOf(
 )
 
 fun buildAlbumDetailRoute(id: Int) = AppRoutes.AlbumDetail.value.replace(
+    oldValue = "{id}",
+    newValue = id.toString()
+)
+
+fun buildTrackNewScreenRoute(id: Int) = AppRoutes.TrackCreate.value.replace(
     oldValue = "{id}",
     newValue = id.toString()
 )
