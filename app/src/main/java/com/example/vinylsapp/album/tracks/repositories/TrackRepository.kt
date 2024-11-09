@@ -10,6 +10,6 @@ class TrackRepository(private val serviceAdapter: NetworkTrackServiceAdapter) : 
     }
 
     override suspend fun create(trackNew: TrackNew, albumId: Int) {
-        return serviceAdapter.createTrack(albumId, trackNew)
+        return serviceAdapter.createTrack(trackNew, albumId)
     }
 }
