@@ -15,6 +15,9 @@ class TrackCreateViewModel(private val albumId: Int, private val trackRepo: ITra
     var album by mutableStateOf<Album?>(null)
     var track by mutableStateOf(TrackNew(name = "", duration = ""))
 
+    var isSuccessModalVisible by mutableStateOf(false)
+    var isErrorModalVisible by mutableStateOf(false)
+
     init {
         load()
     }
@@ -38,14 +41,26 @@ class TrackCreateViewModel(private val albumId: Int, private val trackRepo: ITra
     }
 
     fun createTrack() {
-        // TODO: Consumir endpoint
+        viewModelScope.launch {
+            try {
+                trackRepo.create(track, albumId)
+                showSuccess()
+                resetForm()
+            } catch (e: Exception) {
+                showError()
+            }
+        }
     }
 
-    fun showSuccess() {
-        // TODO: Make success
+    private fun showSuccess() {
+        isSuccessModalVisible = true
     }
 
-    fun showError() {
-        // TODO: Make error
+    private fun showError() {
+        isErrorModalVisible = true
+    }
+
+    private fun resetForm() {
+        track = TrackNew(name = "", duration = "")
     }
 }
