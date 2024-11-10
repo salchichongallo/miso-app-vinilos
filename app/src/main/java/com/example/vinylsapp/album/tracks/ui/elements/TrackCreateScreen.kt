@@ -27,8 +27,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -37,7 +35,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.vinylsapp.R
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackCreateViewModel
@@ -73,77 +70,77 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                 )
                 Text("Agregar el track al álbum ${viewModel.album.name}")
 
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    OutlinedTextField(
-                        value = viewModel.trackName,
-                        onValueChange = { viewModel.onTrackNameChange(it) },
-                        label = { Text("Nombre") },
-                        placeholder = { Text("Ingrese el nombre del track") },
-                        isError = viewModel.trackNameErrorMessage.isNotEmpty(),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onFocusChanged { focusState ->
-                                if (!focusState.isFocused) {
-                                    viewModel.isTrackNameTouched = true
-                                }
+                OutlinedTextField(
+                    value = viewModel.trackName,
+                    onValueChange = { viewModel.onTrackNameChange(it) },
+                    label = { Text("Nombre") },
+                    placeholder = { Text("Ingrese el nombre del track") },
+                    isError = viewModel.trackNameErrorMessage.isNotEmpty(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            if (!focusState.isFocused) {
+                                viewModel.isTrackNameTouched = true
                             }
-                    )
-                    if (viewModel.isTrackNameTouched && viewModel.trackNameErrorMessage.isNotEmpty()) {
-                        Text(
-                            text = viewModel.trackNameErrorMessage,
-                            color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp,
-                            modifier = Modifier.align(Alignment.Start)
-                        )
-                    }
-                }
-
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    OutlinedTextField(
-                        value = viewModel.trackDuration,
-                        onValueChange = { newValue ->
-                            val digitsOnly = newValue.text.filter { it.isDigit() }
-                            val formattedValue = when {
-                                digitsOnly.length >= 3 -> "${digitsOnly.take(2)}:${digitsOnly.drop(2).take(2)}"
-                                digitsOnly.length >= 1 -> digitsOnly
-                                else -> ""
-                            }
-
-                            viewModel.onTrackDurationChange(formattedValue)
-
-                            val newCursorPosition = if (digitsOnly.length == 2) 3 else formattedValue.length
-                            viewModel.trackDuration = TextFieldValue(
-                                text = formattedValue,
-                                selection = TextRange(newCursorPosition)
-                            )
                         },
-                        label = { Text("Duración") },
-                        placeholder = { Text("MM:SS") },
-                        isError = viewModel.trackDurationErrorMessage.isNotEmpty(),
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, top = 2.dp)
-                            .onFocusChanged { focusState ->
-                                if (!focusState.isFocused) {
-                                    viewModel.isTrackDurationTouched = true
-                                }
-                            }
-                    )
-                    if (viewModel.isTrackDurationTouched && viewModel.trackDurationErrorMessage.isNotEmpty()) {
-                        Text(
-                            text = viewModel.trackDurationErrorMessage,
-                            color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp,
-                            modifier = Modifier
-                                .padding(start = 0.dp, top = 2.dp)
-                                .align(alignment = Alignment.Start)
-                        )
+                    supportingText = {
+                        if (viewModel.isTrackNameTouched && viewModel.trackNameErrorMessage.isNotEmpty()) {
+                            Text(
+                                text = viewModel.trackNameErrorMessage,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
                     }
-                }
+                )
+
+                OutlinedTextField(
+                    value = viewModel.trackDuration,
+                    onValueChange = { newValue ->
+                        val digitsOnly = newValue.text.filter { it.isDigit() }
+                        val formattedValue = when {
+                            digitsOnly.length >= 3 -> "${digitsOnly.take(2)}:${
+                                digitsOnly.drop(2).take(2)
+                            }"
+
+                            digitsOnly.length >= 1 -> digitsOnly
+                            else -> ""
+                        }
+
+                        viewModel.onTrackDurationChange(formattedValue)
+
+                        val newCursorPosition =
+                            if (digitsOnly.length == 2) 3 else formattedValue.length
+                        viewModel.trackDuration = TextFieldValue(
+                            text = formattedValue,
+                            selection = TextRange(newCursorPosition)
+                        )
+                    },
+                    label = { Text("Duración") },
+                    placeholder = { Text("MM:SS") },
+                    isError = viewModel.trackDurationErrorMessage.isNotEmpty(),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 0.dp, top = 2.dp)
+                        .onFocusChanged { focusState ->
+                            if (!focusState.isFocused) {
+                                viewModel.isTrackDurationTouched = true
+                            }
+                        },
+                    supportingText = {
+                        if (viewModel.isTrackDurationTouched && viewModel.trackDurationErrorMessage.isNotEmpty()) {
+                            Text(
+                                text = viewModel.trackDurationErrorMessage,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                    }
+                )
 
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     OutlinedButton(
