@@ -45,20 +45,6 @@ import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackCreateViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavController) {
-    val trackName = viewModel.track.name
-    val trackDuration = viewModel.track.duration
-    val album = viewModel.album
-
-    val trackDurationState = remember { mutableStateOf(TextFieldValue(trackDuration)) }
-
-    val isTrackNameTouched = remember { mutableStateOf(false) }
-    val isTrackNameValid = remember { mutableStateOf(false) }
-    val trackNameErrorMessage = remember { mutableStateOf("") }
-
-    val isTrackDurationTouched = remember { mutableStateOf(false) }
-    val isTrackDurationValid = remember { mutableStateOf(false) }
-    val trackDurationErrorMessage = remember { mutableStateOf("") }
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -85,41 +71,26 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                     contentDescription = "Ilustración de canción",
                     modifier = Modifier.size(250.dp)
                 )
-                if (album != null) {
-                    Text("Agregar el track al álbum ${album.name}")
-                }
+                Text("Agregar el track al álbum ${viewModel.album.name}")
 
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
                     OutlinedTextField(
-                        value = trackName,
-                        onValueChange = {
-                            viewModel.onTrackNameChange(it)
-                            isTrackNameTouched.value = true
-                            trackNameErrorMessage.value = if (it.isEmpty()) {
-                                "El nombre es requerido"
-                            } else if (it.length !in 10..30) {
-                                "El nombre debe tener entre 10 y 30 caracteres"
-                            } else {
-                                ""
-                            }
-                            isTrackNameValid.value = it.isNotEmpty() && it.length in 10..30
-                        },
+                        value = viewModel.track.name,
+                        onValueChange = { viewModel.onTrackNameChange(it) },
                         label = { Text("Nombre") },
                         placeholder = { Text("Ingrese el nombre del track") },
-                        isError = trackNameErrorMessage.value.isNotEmpty(),
+                        isError = viewModel.trackNameErrorMessage.isNotEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused) {
-                                    isTrackNameTouched.value = true
+                                    viewModel.isTrackNameTouched = true
                                 }
                             }
                     )
-                    if (isTrackNameTouched.value && trackNameErrorMessage.value.isNotEmpty()) {
+                    if (viewModel.isTrackNameTouched && viewModel.trackNameErrorMessage.isNotEmpty()) {
                         Text(
-                            text = trackNameErrorMessage.value,
+                            text = viewModel.trackNameErrorMessage,
                             color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp,
                             modifier = Modifier.align(Alignment.Start)
@@ -127,11 +98,9 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                     }
                 }
 
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
                     OutlinedTextField(
-                        value = trackDurationState.value,
+                        value = viewModel.trackDurationState,
                         onValueChange = { newValue ->
                             val digitsOnly = newValue.text.filter { it.isDigit() }
                             val formattedValue = when {
@@ -143,38 +112,27 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                             viewModel.onTrackDurationChange(formattedValue)
 
                             val newCursorPosition = if (digitsOnly.length == 2) 3 else formattedValue.length
-                            trackDurationState.value = TextFieldValue(
+                            viewModel.trackDurationState = TextFieldValue(
                                 text = formattedValue,
                                 selection = TextRange(newCursorPosition)
                             )
-
-                            val regex = "^([0-5][0-9]):([0-5][0-9])$".toRegex()
-                            if (formattedValue.isEmpty()) {
-                                trackDurationErrorMessage.value = "La duración es requerida"
-                            } else if (!formattedValue.matches(regex)) {
-                                isTrackDurationValid.value = false
-                                trackDurationErrorMessage.value = "Duración inválida. El formato debe ser MM:SS (00:30 - 59:59)"
-                            } else {
-                                isTrackDurationValid.value = true
-                                trackDurationErrorMessage.value = ""
-                            }
                         },
                         label = { Text("Duración") },
                         placeholder = { Text("MM:SS") },
-                        isError = trackDurationErrorMessage.value.isNotEmpty(),
+                        isError = viewModel.trackDurationErrorMessage.isNotEmpty(),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 0.dp, top = 2.dp)
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused) {
-                                    isTrackDurationTouched.value = true
+                                    viewModel.isTrackDurationTouched = true
                                 }
                             }
                     )
-                    if (isTrackDurationTouched.value && trackDurationErrorMessage.value.isNotEmpty()) {
+                    if (viewModel.isTrackDurationTouched && viewModel.trackDurationErrorMessage.isNotEmpty()) {
                         Text(
-                            text = trackDurationErrorMessage.value,
+                            text = viewModel.trackDurationErrorMessage,
                             color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp,
                             modifier = Modifier
@@ -198,53 +156,47 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                     Button(
                         onClick = { viewModel.createTrack() },
                         modifier = Modifier.weight(1f),
-                        enabled = isTrackNameValid.value && isTrackDurationValid.value
+                        enabled = viewModel.isTrackNameValid && viewModel.isTrackDurationValid
                     ) {
                         Text("Agregar")
                     }
+                }
 
-                    if (viewModel.isSuccessModalVisible) {
-                        AlertDialog(
-                            onDismissRequest = { viewModel.isSuccessModalVisible = false },
-                            title = {
-                                Text("Track asociado")
-                            },
-                            text = { Text("El track ha sido asociado al álbum ${album!!.name}") },
-                            confirmButton = {
-                                Button(
-                                    onClick = {
-                                        viewModel.isSuccessModalVisible = false
-                                    }
-                                ) {
-                                    Text("Aceptar")
-                                }
+                if (viewModel.isSuccessModalVisible) {
+                    AlertDialog(
+                        onDismissRequest = { viewModel.isSuccessModalVisible = false },
+                        title = { Text("Track asociado") },
+                        text = { Text("El track ha sido asociado al álbum ${viewModel.album.name}") },
+                        confirmButton = {
+                            Button(onClick = { viewModel.isSuccessModalVisible = false }) {
+                                Text("Aceptar")
                             }
-                        )
-                    }
+                        }
+                    )
+                }
 
-                    if (viewModel.isErrorModalVisible) {
-                        AlertDialog(
-                            onDismissRequest = { viewModel.isErrorModalVisible = false },
-                            title = {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("Ha ocurrido un error")
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Icon(
-                                        imageVector = Icons.Rounded.Error,
-                                        contentDescription = "Error Icon",
-                                        tint = MaterialTheme.colorScheme.error,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                }
-                            },
-                            text = { Text("Ocurrió un error al agregar el track, intenta nuevamente por favor.") },
-                            confirmButton = {
-                                Button(onClick = { viewModel.isErrorModalVisible = false }) {
-                                    Text("Listo")
-                                }
+                if (viewModel.isErrorModalVisible) {
+                    AlertDialog(
+                        onDismissRequest = { viewModel.isErrorModalVisible = false },
+                        title = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("Ha ocurrido un error")
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    imageVector = Icons.Rounded.Error,
+                                    contentDescription = "Error Icon",
+                                    tint = MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.size(24.dp)
+                                )
                             }
-                        )
-                    }
+                        },
+                        text = { Text("Ocurrió un error al agregar el track, intenta nuevamente por favor.") },
+                        confirmButton = {
+                            Button(onClick = { viewModel.isErrorModalVisible = false }) {
+                                Text("Listo")
+                            }
+                        }
+                    )
                 }
             }
         }

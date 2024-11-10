@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import com.example.vinylsapp.album.tracks.ui.elements.TrackCreateScreen
@@ -22,6 +23,7 @@ import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
+import kotlinx.serialization.json.Json
 
 @SuppressLint("RestrictedApi")
 @Composable
@@ -66,14 +68,13 @@ fun RootNavigation(albumRepo: IAlbumRepository, trackRepository: ITrackRepositor
                 )
             }
 
-            composable(route = AppRoutes.TrackCreate.value) {navBackStackEntry ->
-                val albumIdInput = navBackStackEntry.arguments?.getString("id")
-                val albumId = albumIdInput?.toIntOrNull()!!
+            composable(route = AppRoutes.TrackCreate.value) { navBackStackEntry ->
+                val serializedAlbum = navBackStackEntry.arguments?.getString("album") ?: ""
+                val album = Json.decodeFromString<Album>(serializedAlbum)
                 TrackCreateScreen(
                     viewModel = TrackCreateViewModel(
-                        albumId = albumId,
+                        albumData = album,
                         trackRepo = trackRepository,
-                        albumRepo = albumRepo
                     ),
                     navController,
                 )

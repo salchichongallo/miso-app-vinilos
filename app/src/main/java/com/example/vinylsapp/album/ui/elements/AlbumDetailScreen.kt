@@ -57,7 +57,7 @@ fun AlbumDetailScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!.id)
+                    val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!)
                     navController.navigate(trackNewRoute)
                 },
                 modifier = Modifier.padding(16.dp),
