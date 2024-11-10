@@ -72,7 +72,7 @@ fun RootNavigation(
                 val album = gson.fromJson(serializedAlbum, Album::class.java)
                 TrackCreateScreen(
                     viewModel = TrackCreateViewModel(
-                        albumData = album,
+                        album = album,
                         trackRepo = trackRepository,
                     ),
                     navController,

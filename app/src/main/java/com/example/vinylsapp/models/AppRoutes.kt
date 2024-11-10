@@ -12,7 +12,7 @@ enum class AppRoutes(val value: String) {
     Artists("artists"),
     Login("login"),
     AlbumDetail("albums/{id}"),
-    TrackCreate("/albums/{album}/track")
+    TrackCreate("/albums/new-track?album={album}")
 }
 
 val topLevelRoutes = listOf(
