@@ -67,7 +67,7 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.undraw_music),
+                    painter = painterResource(id = R.drawable.music_placeholder),
                     contentDescription = "Ilustración de canción",
                     modifier = Modifier.size(250.dp)
                 )
