@@ -5,8 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
+import com.example.vinylsapp.album.tracks.ui.elements.TrackCreateScreen
+import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackCreateViewModel
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
@@ -20,6 +23,7 @@ import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
+import com.google.gson.Gson
 
 @SuppressLint("RestrictedApi")
 @Composable
@@ -59,6 +63,19 @@ fun RootNavigation(
                         trackRepo = trackRepository,
                     ),
                     navController = navController,
+                )
+            }
+
+            composable(route = AppRoutes.TrackCreate.value) { navBackStackEntry ->
+                val gson = Gson()
+                val serializedAlbum = navBackStackEntry.arguments?.getString("album") ?: ""
+                val album = gson.fromJson(serializedAlbum, Album::class.java)
+                TrackCreateScreen(
+                    viewModel = TrackCreateViewModel(
+                        album = album,
+                        trackRepo = trackRepository,
+                    ),
+                    navController,
                 )
             }
         }

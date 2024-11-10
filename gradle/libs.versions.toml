@@ -21,6 +21,7 @@ rules = "1.6.1"
 truth = "1.6.0"
 uiTestJunit4 = "1.7.5"
 uiTestManifest = "1.7.5"
+gson = "2.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,8 +51,8 @@ androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules
 androidx-truth = { group = "androidx.test.ext", name = "truth", version.ref = "truth" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "uiTestManifest" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
