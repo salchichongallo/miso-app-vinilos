@@ -75,7 +75,7 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     OutlinedTextField(
-                        value = viewModel.track.name,
+                        value = viewModel.trackName,
                         onValueChange = { viewModel.onTrackNameChange(it) },
                         label = { Text("Nombre") },
                         placeholder = { Text("Ingrese el nombre del track") },
@@ -100,7 +100,7 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     OutlinedTextField(
-                        value = viewModel.trackDurationState,
+                        value = viewModel.trackDuration,
                         onValueChange = { newValue ->
                             val digitsOnly = newValue.text.filter { it.isDigit() }
                             val formattedValue = when {
@@ -112,7 +112,7 @@ fun TrackCreateScreen(viewModel: TrackCreateViewModel, navController: NavControl
                             viewModel.onTrackDurationChange(formattedValue)
 
                             val newCursorPosition = if (digitsOnly.length == 2) 3 else formattedValue.length
-                            viewModel.trackDurationState = TextFieldValue(
+                            viewModel.trackDuration = TextFieldValue(
                                 text = formattedValue,
                                 selection = TextRange(newCursorPosition)
                             )

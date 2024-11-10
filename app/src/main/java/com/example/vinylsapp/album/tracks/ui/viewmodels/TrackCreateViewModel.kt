@@ -15,7 +15,8 @@ class TrackCreateViewModel(
     val album: Album,
     private val trackRepo: ITrackRepository
 ) : ViewModel() {
-    var track by mutableStateOf(TrackNew(name = "", duration = ""))
+    var trackName by mutableStateOf("")
+    var trackDuration by mutableStateOf(TextFieldValue(""))
 
     var isSuccessModalVisible by mutableStateOf(false)
     var isErrorModalVisible by mutableStateOf(false)
@@ -28,23 +29,20 @@ class TrackCreateViewModel(
     var isTrackNameValid by mutableStateOf(false)
     var isTrackDurationValid by mutableStateOf(false)
 
-    var trackDurationState by mutableStateOf(TextFieldValue(track.duration))
-
     fun onTrackNameChange(newName: String) {
-        track = track.copy(name = newName)
+        trackName = newName
         isTrackNameTouched = true
-        trackNameErrorMessage = if (newName.isEmpty()) {
+        trackNameErrorMessage = if (trackName.isEmpty()) {
             "El nombre es requerido"
-        } else if (newName.length !in 10..30) {
+        } else if (trackName.length !in 10..30) {
             "El nombre debe tener entre 10 y 30 caracteres"
         } else {
             ""
         }
-        isTrackNameValid = newName.isNotEmpty() && newName.length in 10..30
+        isTrackNameValid = trackName.isNotEmpty() && trackName.length in 10..30
     }
 
     fun onTrackDurationChange(newDuration: String) {
-        track = track.copy(duration = newDuration)
         isTrackDurationTouched = true
 
         val regex = "^([0-5][0-9]):([0-5][0-9])$".toRegex()
@@ -59,6 +57,7 @@ class TrackCreateViewModel(
     }
 
     fun createTrack() {
+        val track = TrackNew(trackName, trackDuration.text)
         viewModelScope.launch {
             try {
                 trackRepo.create(track, album.id)
@@ -79,8 +78,8 @@ class TrackCreateViewModel(
     }
 
     private fun resetForm() {
-        track = TrackNew(name = "", duration = "")
-        trackDurationState = TextFieldValue("")
+        trackName = ""
+        trackDuration = TextFieldValue("")
         isTrackNameTouched = false
         isTrackDurationTouched = false
         trackNameErrorMessage = ""
