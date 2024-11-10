@@ -5,8 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.outlined.Groups
 import com.example.vinylsapp.album.models.Album
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.google.gson.Gson
 
 enum class AppRoutes(val value: String) {
     Albums("albums"),
@@ -28,6 +27,7 @@ fun buildAlbumDetailRoute(id: Int) = AppRoutes.AlbumDetail.value.replace(
 )
 
 fun buildTrackNewScreenRoute(album: Album): String {
-    val serializedAlbum = Json.encodeToString(album)
+    val gson = Gson()
+    val serializedAlbum = gson.toJson(album)
     return AppRoutes.TrackCreate.value.replace("{album}", serializedAlbum)
 }

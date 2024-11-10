@@ -23,7 +23,7 @@ import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
-import kotlinx.serialization.json.Json
+import com.google.gson.Gson
 
 @SuppressLint("RestrictedApi")
 @Composable
@@ -67,8 +67,9 @@ fun RootNavigation(
             }
 
             composable(route = AppRoutes.TrackCreate.value) { navBackStackEntry ->
+                val gson = Gson()
                 val serializedAlbum = navBackStackEntry.arguments?.getString("album") ?: ""
-                val album = Json.decodeFromString<Album>(serializedAlbum)
+                val album = gson.fromJson(serializedAlbum, Album::class.java)
                 TrackCreateScreen(
                     viewModel = TrackCreateViewModel(
                         albumData = album,

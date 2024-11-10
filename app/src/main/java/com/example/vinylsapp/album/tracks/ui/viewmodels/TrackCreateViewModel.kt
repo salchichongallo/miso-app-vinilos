@@ -12,10 +12,9 @@ import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import kotlinx.coroutines.launch
 
 class TrackCreateViewModel(
-    private val albumData: Album,
+    val album: Album,
     private val trackRepo: ITrackRepository
 ) : ViewModel() {
-    var album by mutableStateOf<Album>(albumData)
     var track by mutableStateOf(TrackNew(name = "", duration = ""))
 
     var isSuccessModalVisible by mutableStateOf(false)
