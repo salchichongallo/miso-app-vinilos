@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -46,7 +47,7 @@ fun CommentCreateModal(viewModel: CommentCreateViewModel, commentListViewModel: 
                         stars = viewModel.rating,
                         size = 40.dp,
                         onPressed = {
-                            viewModel.rating = it
+                            viewModel.onRatingChange(it)
                         }
                     )
                 }
@@ -54,11 +55,19 @@ fun CommentCreateModal(viewModel: CommentCreateViewModel, commentListViewModel: 
                 TextField(
                     modifier = Modifier.padding(bottom = 8.dp),
                     value = viewModel.description,
-                    onValueChange = {
-                        viewModel.description = it
-                    },
+                    onValueChange = { viewModel.onDescriptionChange(it) },
                     label = { Text("Comentario") },
                     placeholder = { Text(text = "Ingresa un comentario") },
+                    supportingText = {
+                        if (viewModel.errorMessage != null) {
+                            Text(
+                                text = viewModel.errorMessage ?: "",
+                                color = colorScheme.error,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
                 )
                 Row(
                     modifier = Modifier
@@ -77,7 +86,6 @@ fun CommentCreateModal(viewModel: CommentCreateViewModel, commentListViewModel: 
                     TextButton(
                         onClick = {
                             viewModel.create()
-                            commentListViewModel.closeCommentCreateModal()
                         },
                         modifier = Modifier.padding(8.dp),
                     ) {
