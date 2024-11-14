@@ -11,9 +11,18 @@ import kotlinx.coroutines.launch
 
 class CommentListViewModel(private val commentRepo: ICommentRepository, private val albumId: Int) : ViewModel() {
     var comments by mutableStateOf(listOf<Comment>())
+    var isCommentCreateModalVisible by mutableStateOf(false)
 
     init {
         load()
+    }
+
+    fun openCommentCreateModal() {
+        isCommentCreateModalVisible = true
+    }
+
+    fun closeCommentCreateModal() {
+        isCommentCreateModalVisible = false
     }
 
     private fun load() {

@@ -12,7 +12,8 @@ enum class AppRoutes(val value: String) {
     Artists("artists"),
     Login("login"),
     AlbumDetail("albums/{id}"),
-    TrackCreate("/albums/new-track?album={album}")
+    TrackCreate("/albums/new-track?album={album}"),
+    CommentList("/albums/{id}/comments")
 }
 
 val topLevelRoutes = listOf(
@@ -31,3 +32,8 @@ fun buildTrackNewScreenRoute(album: Album): String {
     val serializedAlbum = gson.toJson(album)
     return AppRoutes.TrackCreate.value.replace("{album}", serializedAlbum)
 }
+
+fun buildCommentListScreenRoute(albumId: Int) = AppRoutes.CommentList.value.replace(
+    oldValue = "{id}",
+    newValue = albumId.toString()
+)

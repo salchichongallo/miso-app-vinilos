@@ -9,6 +9,8 @@ import com.example.vinylsapp.album.repositories.AlbumRepository
 import com.example.vinylsapp.album.repositories.services.RetrofitServiceFactory
 import com.example.vinylsapp.album.tracks.repositories.TrackRepository
 import com.example.vinylsapp.album.tracks.repositories.services.TrackRetrofitInstance
+import com.example.vinylsapp.comment.repositories.CommentRepository
+import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstance
 import com.example.vinylsapp.ui.elements.RootNavigation
 
 
@@ -20,9 +22,10 @@ class MainActivity : ComponentActivity() {
         val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService())
         val trackRepository =
             TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
+        val commentRepo = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService())
 
         setContent {
-            RootNavigation(albumRepo, trackRepository)
+            RootNavigation(albumRepo, trackRepository, commentRepository = commentRepo)
         }
     }
 }

@@ -1,13 +1,16 @@
 package com.example.vinylsapp.comment.repositories.services
 
 import com.example.vinylsapp.comment.models.Comment
+import com.example.vinylsapp.comment.models.NewComment
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface NetworkCommentServiceAdapter {
-    @GET("comments")
-    suspend fun fetchComments(albumId: Int): List<Comment>
+    @GET("albums/{albumId}/comments")
+    suspend fun fetchComments(@Path("albumId") albumId: Int): List<Comment>
 
-    @POST("comments")
-    suspend fun createComment(rating: Int, description: String, albumId: Int): Comment
+    @POST("albums/{albumId}/comments")
+    suspend fun createComment(@Body() newComment: NewComment, @Path("albumId") albumId: Int): Comment
 }
