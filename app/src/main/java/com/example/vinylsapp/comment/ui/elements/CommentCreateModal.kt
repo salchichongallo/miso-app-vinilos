@@ -7,7 +7,7 @@ import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
 @Composable
 fun CommentCreateModal(viewModel: CommentCreateViewModel, commentListViewModel: CommentListViewModel) {
     if (viewModel.isCreatingComment) {
-        CommentCreateForm(viewModel, {
+        CommentCreateForm(viewModel, onCancelCreateComment = {
             commentListViewModel.closeCommentCreateModal()
             viewModel.resetForm()
         })
