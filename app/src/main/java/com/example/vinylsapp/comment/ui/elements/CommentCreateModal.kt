@@ -25,78 +25,10 @@ import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
 @Composable
 fun CommentCreateModal(viewModel: CommentCreateViewModel, commentListViewModel: CommentListViewModel) {
     if (viewModel.isCreatingComment) {
-        Dialog(onDismissRequest = {}) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                shape = RoundedCornerShape(16.dp),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp),
-                ) {
-                    Text(
-                        text = "Opina sobre el álbum",
-                        fontSize = 24.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        RatingBar(
-                            stars = viewModel.rating,
-                            size = 40.dp,
-                            onPressed = {
-                                viewModel.onRatingChange(it)
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    TextField(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        value = viewModel.description,
-                        onValueChange = { viewModel.onDescriptionChange(it) },
-                        label = { Text("Comentario") },
-                        placeholder = { Text(text = "Ingresa un comentario") },
-                        supportingText = {
-                            if (viewModel.errorMessage != null) {
-                                Text(
-                                    text = viewModel.errorMessage ?: "",
-                                    color = colorScheme.error,
-                                    fontSize = 12.sp,
-                                    modifier = Modifier.padding(top = 4.dp)
-                                )
-                            }
-                        }
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                    ) {
-                        TextButton(
-                            onClick = {
-                                commentListViewModel.closeCommentCreateModal()
-                                viewModel.resetForm()
-                            },
-                            modifier = Modifier.padding(8.dp),
-                        ) {
-                            Text("Cancelar")
-                        }
-                        TextButton(
-                            onClick = {
-                                viewModel.create()
-                            },
-                            modifier = Modifier.padding(8.dp),
-                        ) {
-                            Text("Comentar")
-                        }
-                    }
-                }
-            }
-        }
+        CommentCreateForm(viewModel, {
+            commentListViewModel.closeCommentCreateModal()
+            viewModel.resetForm()
+        })
     } else if (viewModel.isSuccessAlert) {
         CommentNewSuccessAlert {
             commentListViewModel.closeCommentCreateModal()
