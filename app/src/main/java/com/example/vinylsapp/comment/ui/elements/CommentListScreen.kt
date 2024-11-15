@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -56,25 +57,16 @@ fun CommentLitScreen(viewModel: CommentListViewModel, commentCreateViewModel: Co
         },
         bottomBar = { VinylsBottomAppBar(navController) },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.openCommentCreateModal()
-                },
-                modifier = Modifier.padding(16.dp),
-                elevation = FloatingActionButtonDefaults.elevation(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+            ExtendedFloatingActionButton(
+                onClick = { viewModel.openCommentCreateModal() },
+                icon = {
                     Icon(
                         Icons.Filled.Edit,
-                        contentDescription = "Comentar",
+                        contentDescription = "Comentar"
                     )
-                    Text("Comentar")
-                }
-            }
+                },
+                text = { Text(text = "Comentar") },
+            )
         }
     ) {
         innerPadding ->
