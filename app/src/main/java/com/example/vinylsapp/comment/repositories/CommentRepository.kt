@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 
 class CommentRepository(private val serviceAdapter: NetworkCommentServiceAdapter) :
     ICommentRepository {
-    private var comments = MutableStateFlow<Map<Int, List<Comment>>>(emptyMap())
+    private val comments = MutableStateFlow<Map<Int, List<Comment>>>(emptyMap())
 
     override suspend fun getAll(albumId: Int): StateFlow<List<Comment>> {
         return comments.map {
