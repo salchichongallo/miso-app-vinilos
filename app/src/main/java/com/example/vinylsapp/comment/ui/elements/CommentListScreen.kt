@@ -20,6 +20,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,6 +34,7 @@ import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentLitScreen(viewModel: CommentListViewModel, commentCreateViewModel: CommentCreateViewModel, navController: NavController) {
+    val comments by viewModel.comments.collectAsState()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -71,7 +74,7 @@ fun CommentLitScreen(viewModel: CommentListViewModel, commentCreateViewModel: Co
     ) {
         innerPadding ->
             Surface(modifier = Modifier.padding(innerPadding)) {
-                CommentList(viewModel.comments)
+                CommentList(comments)
 
                 if (viewModel.isCommentCreateModalVisible) {
                     CommentCreateModal(commentCreateViewModel, viewModel)

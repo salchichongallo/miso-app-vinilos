@@ -20,7 +20,7 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
     var isSuccessAlert by mutableStateOf(false)
     var isErrorAlert by mutableStateOf(false)
 
-    fun create(): Unit {
+    fun create() {
         if (!isValidForm()) return
 
         viewModelScope.launch {
