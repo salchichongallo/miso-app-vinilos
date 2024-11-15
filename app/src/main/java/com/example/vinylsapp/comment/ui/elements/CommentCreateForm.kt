@@ -65,6 +65,12 @@ fun CommentCreateForm(viewModel: CommentCreateViewModel, onCancelCreateComment: 
                                 fontSize = 12.sp,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
+                        } else {
+                            Text(
+                                text = "Obligatorio",
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
                         }
                     }
                 )
