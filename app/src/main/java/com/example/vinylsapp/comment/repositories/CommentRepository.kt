@@ -1,7 +1,7 @@
 package com.example.vinylsapp.comment.repositories
 
 import com.example.vinylsapp.comment.models.Comment
-import com.example.vinylsapp.comment.models.NewComment
+import com.example.vinylsapp.comment.repositories.models.NewComment
 import com.example.vinylsapp.comment.repositories.services.NetworkCommentServiceAdapter
 
 class CommentRepository(private val serviceAdapter: NetworkCommentServiceAdapter) : ICommentRepository {

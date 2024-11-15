@@ -1,4 +1,4 @@
-package com.example.vinylsapp.comment.models
+package com.example.vinylsapp.comment.repositories.models
 
 data class NewComment(
     val rating: Int,
