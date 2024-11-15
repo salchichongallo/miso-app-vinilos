@@ -59,6 +59,13 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
         isErrorAlert = false
     }
 
+    fun resetAll () {
+        resetForm()
+        isCreatingComment = true
+        isSuccessAlert = false
+        isErrorAlert = false
+    }
+
     private fun isValidForm(): Boolean {
         if (rating == 0) {
             errorMessage = "El puntaje es obligatorio"
