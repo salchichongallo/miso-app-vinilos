@@ -26,10 +26,6 @@ class CommentListViewModel(private val commentRepo: ICommentRepository, private 
         isCommentCreateModalVisible = false
     }
 
-    fun addComment(comment: Comment) {
-        comments.add(0, comment)
-    }
-
     private fun load() {
         viewModelScope.launch {
             try {
