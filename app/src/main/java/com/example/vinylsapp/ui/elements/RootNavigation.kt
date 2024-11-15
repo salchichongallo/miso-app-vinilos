@@ -37,7 +37,7 @@ fun RootNavigation(
     albumRepo: IAlbumRepository,
     trackRepository: ITrackRepository,
     artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
-    commentRepository: ICommentRepository
+    commentRepository: ICommentRepository = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService()),
 ) {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel(albumRepo)
@@ -86,7 +86,7 @@ fun RootNavigation(
                 )
             }
 
-            composable(route = AppRoutes.CommentList.value) {navBackStackEntry ->
+            composable(route = AppRoutes.CommentList.value) { navBackStackEntry ->
                 val albumIdInput = navBackStackEntry.arguments?.getString("id")
                 val albumId = albumIdInput?.toIntOrNull()!!
                 CommentLitScreen(
