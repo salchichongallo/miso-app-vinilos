@@ -31,15 +31,15 @@ class CommentRepository(private val serviceAdapter: NetworkCommentServiceAdapter
         val newCommentBody = NewComment(rating, description, collector)
         val newComment = serviceAdapter.createComment(newCommentBody, albumId)
         comments.update {
-            val currentAlbumComments = it[albumId].orEmpty() + newComment
-            it + (albumId to currentAlbumComments.reversed())
+            val currentAlbumComments = it[albumId].orEmpty()
+            it + (albumId to listOf(newComment) + currentAlbumComments)
         }
     }
 
     override suspend fun fetchAll(albumId: Int) {
         if (!comments.value.containsKey(albumId)) {
             val newComments = serviceAdapter.fetchComments(albumId)
-            comments.update { it + (albumId to newComments)  }
+            comments.update { it + (albumId to newComments.reversed())  }
         }
     }
 }
