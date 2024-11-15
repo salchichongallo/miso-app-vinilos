@@ -1,6 +1,7 @@
 package com.example.vinylsapp.comment.ui.viewmodels
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -10,7 +11,7 @@ import com.example.vinylsapp.comment.repositories.ICommentRepository
 import kotlinx.coroutines.launch
 
 class CommentListViewModel(private val commentRepo: ICommentRepository, private val albumId: Int) : ViewModel() {
-    var comments by mutableStateOf(listOf<Comment>())
+    var comments = mutableStateListOf<Comment>()
     var isCommentCreateModalVisible by mutableStateOf(false)
 
     init {
@@ -25,12 +26,18 @@ class CommentListViewModel(private val commentRepo: ICommentRepository, private 
         isCommentCreateModalVisible = false
     }
 
+    fun addComment(comment: Comment) {
+        comments.add(0, comment)
+    }
+
     private fun load() {
         viewModelScope.launch {
             try {
-                comments = commentRepo.getAll(albumId)
+                val loadedComments = commentRepo.getAll(albumId)
+                comments.clear()
+                comments.addAll(loadedComments)
             } catch (e: Exception) {
-                comments = listOf()
+                comments.clear()
             }
         }
     }

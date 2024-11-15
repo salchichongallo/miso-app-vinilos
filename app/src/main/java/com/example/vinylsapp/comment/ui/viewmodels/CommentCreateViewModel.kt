@@ -9,19 +9,24 @@ import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.comment.repositories.ICommentRepository
 import kotlinx.coroutines.launch
 
-class CommentCreateViewModel(private val commentRepo: ICommentRepository, private val albumId: Int) : ViewModel() {
+class CommentCreateViewModel(private val commentRepo: ICommentRepository, private val albumId: Int, private val commentListViewModel: CommentListViewModel) : ViewModel() {
     var rating by mutableIntStateOf(0)
     var description by mutableStateOf<String>("")
 
     private val maxCommentLength = 500
     var errorMessage by mutableStateOf<String?>(null)
 
+    var isCreatingComment by mutableStateOf(true)
+    var isSuccessAlert by mutableStateOf(false)
+    var isErrorAlert by mutableStateOf(false)
+
     fun create(): Unit {
         if (!isValidForm()) return
 
         viewModelScope.launch {
             try {
-                commentRepo.create(rating, description, albumId)
+                val newComment = commentRepo.create(rating, description, albumId)
+                commentListViewModel.addComment(newComment)
                 showSuccess()
                 resetForm()
             } catch (e: Exception) {
@@ -50,6 +55,11 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
         errorMessage = null
     }
 
+    fun acceptError() {
+        isCreatingComment = true
+        isErrorAlert = false
+    }
+
     private fun isValidForm(): Boolean {
         if (rating == 0) {
             errorMessage = "El puntaje es obligatorio"
@@ -66,10 +76,14 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
     }
 
     private fun showSuccess() {
-        // TODO: Mostrar dialog success
+        isSuccessAlert = true
+        isCreatingComment = false
+        isErrorAlert = false
     }
 
     private fun showError() {
-        // TODO: Mostrar dialog error
+        isErrorAlert = true
+        isSuccessAlert = false
+        isCreatingComment = false
     }
 }

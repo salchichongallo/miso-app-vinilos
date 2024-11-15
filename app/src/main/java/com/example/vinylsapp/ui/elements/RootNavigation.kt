@@ -96,7 +96,11 @@ fun RootNavigation(
                     ),
                     commentCreateViewModel = CommentCreateViewModel(
                         albumId = albumId,
-                        commentRepo = commentRepository
+                        commentRepo = commentRepository,
+                        commentListViewModel = CommentListViewModel(
+                            commentRepo = commentRepository,
+                            albumId = albumId
+                        )
                     ),
                     navController
                 )
