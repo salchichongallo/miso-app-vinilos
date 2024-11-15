@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.comment.repositories.ICommentRepository
 import kotlinx.coroutines.launch
 
-class CommentCreateViewModel(private val commentRepo: ICommentRepository, private val albumId: Int, private val commentListViewModel: CommentListViewModel) : ViewModel() {
+class CommentCreateViewModel(private val commentRepo: ICommentRepository, private val albumId: Int) : ViewModel() {
     var rating by mutableIntStateOf(0)
     var description by mutableStateOf<String>("")
 
@@ -25,8 +25,7 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
 
         viewModelScope.launch {
             try {
-                val newComment = commentRepo.create(rating, description, albumId)
-                commentListViewModel.addComment(newComment)
+                commentRepo.create(rating, description, albumId)
                 showSuccess()
                 resetForm()
             } catch (e: Exception) {
