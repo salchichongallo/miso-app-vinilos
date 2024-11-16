@@ -75,6 +75,7 @@ fun RootNavigation(
                         trackRepo = trackRepository,
                     ),
                     navController = navController,
+                    userViewModel = userViewModel,
                 )
             }
 

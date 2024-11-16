@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.example.vinylsapp.album.tracks.ui.elements.AlbumTrackList
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
+import com.example.vinylsapp.login.ui.viewmodels.UserViewModel
 import com.example.vinylsapp.models.buildCommentListScreenRoute
 import com.example.vinylsapp.models.buildTrackNewScreenRoute
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
@@ -40,6 +41,7 @@ fun AlbumDetailScreen(
     viewModel: AlbumDetailViewModel,
     tracksViewModel: TrackListViewModel,
     navController: NavController,
+    userViewModel: UserViewModel,
 ) {
     Scaffold(
         modifier = Modifier
@@ -55,7 +57,8 @@ fun AlbumDetailScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        val commentListScreenRoute = buildCommentListScreenRoute(viewModel.album!!.id)
+                        val commentListScreenRoute =
+                            buildCommentListScreenRoute(viewModel.album!!.id)
                         navController.navigate(commentListScreenRoute)
                     }) {
                         Icon(Icons.Outlined.ChatBubble, contentDescription = "Comentarios")
@@ -65,24 +68,26 @@ fun AlbumDetailScreen(
         },
         bottomBar = { VinylsBottomAppBar(navController) },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!)
-                    navController.navigate(trackNewRoute)
-                },
-                modifier = Modifier.padding(16.dp),
-                elevation = FloatingActionButtonDefaults.elevation(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            if (userViewModel.isCollector) {
+                FloatingActionButton(
+                    onClick = {
+                        val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!)
+                        navController.navigate(trackNewRoute)
+                    },
+                    modifier = Modifier.padding(16.dp),
+                    elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 ) {
-                    Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Agregar Canción",
-                    )
-                    Text("Track")
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = "Agregar Canción",
+                        )
+                        Text("Track")
+                    }
                 }
             }
         }
