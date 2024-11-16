@@ -14,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.vinylsapp.login.models.Role
+import com.example.vinylsapp.login.ui.viewmodels.UserViewModel
 import com.example.vinylsapp.models.AppRoutes
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
     Scaffold { innerPadding ->
         Surface(
             modifier = Modifier
@@ -36,6 +38,7 @@ fun LoginScreen(navController: NavController) {
                     description = "Puedes explorar los álbumes y artistas.",
                     onSelect = {
                         navController.navigate(AppRoutes.Albums.value) {
+                            userViewModel.signIn(role = Role.Visitor)
                             // Delete previous route from stack
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             // Avoid duplicate instances in the stack
@@ -50,6 +53,7 @@ fun LoginScreen(navController: NavController) {
                     description = "Agrega álbumes, comentarios y tracks.",
                     onSelect = {
                         navController.navigate(AppRoutes.Albums.value) {
+                            userViewModel.signIn(role = Role.Collector)
                             // Delete previous route from stack
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             // Avoid duplicate instances in the stack
