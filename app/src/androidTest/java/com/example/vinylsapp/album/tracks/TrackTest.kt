@@ -62,16 +62,35 @@ class TrackTest {
         login.loginAsCollector()
         val album = albumList.firstAlbum()
         val detail = album.click()
-        detail.screen().assertIsDisplayed()
         detail.createTrackButton().performClick()
 
-        createTrack.enterName(trackName)
-        createTrack.enterDuration(trackDuration)
-        createTrack.createButton()
-        createTrack.closeSuccessAlert()
-        createTrack.goBack()
-
+        createTrack.fillAndSubmitTrackForm(trackName, trackDuration)
         composeTestRule.onNodeWithText(trackName).assertIsDisplayed()
     }
 
+    @Test
+    fun shouldNavigateAndCancelTrack() {
+        val trackName = "Prueba 2"
+        val trackDuration = "03:30"
+        val albumMock = Album(
+            id = 100,
+            name = "3 Buscando América",
+            cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
+            genre = AlbumGenre.SALSA,
+            releaseDate = "1984-08-01T00:00:00.000Z"
+        )
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepositoryMock(listOf(albumMock)),
+                trackRepository = TrackRepositoryMock(mutableListOf())
+            )
+        }
+        login.loginAsCollector()
+        val album = albumList.firstAlbum()
+        val detail = album.click()
+        detail.createTrackButton().performClick()
+        createTrack.fillAndCancelTrackForm(trackName, trackDuration)
+
+        composeTestRule.onNodeWithText(trackName).assertDoesNotExist()
+    }
 }

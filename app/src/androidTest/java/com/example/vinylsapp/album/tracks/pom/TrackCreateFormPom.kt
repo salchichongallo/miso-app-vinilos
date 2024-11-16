@@ -7,29 +7,48 @@ import androidx.compose.ui.test.performTextInput
 
 class TrackCreateFormPom(val rule: ComposeTestRule) {
 
-    fun enterName(value: String) {
+    fun fillAndSubmitTrackForm(name: String, duration: String) {
+        enterName(name)
+        enterDuration(duration)
+        createButton()
+        closeSuccessAlert()
+        goBack()
+    }
+
+    fun fillAndCancelTrackForm(name: String, duration: String) {
+        enterName(name)
+        enterDuration(duration)
+        cancelButton()
+    }
+
+    private fun enterName(value: String) {
         val nameTrackTextField = rule.onNodeWithTag("NameTrackTextField")
         nameTrackTextField.performTextInput(value)
     }
 
-    fun enterDuration(value: String) {
+    private fun enterDuration(value: String) {
         val durationTrackTextField = rule.onNodeWithTag("DurationTrackTextField")
         durationTrackTextField.performTextInput(value)
     }
 
-    fun createButton() {
+    private fun createButton() {
         val createTrackButton = rule.onNodeWithTag("CreateTrackButton")
         createTrackButton.performClick()
     }
 
-    fun closeSuccessAlert() {
+    private fun closeSuccessAlert() {
         val closeSuccessAlertButton = rule.onNodeWithTag("CloseSuccessAlertButton")
         closeSuccessAlertButton.performClick()
     }
 
-    fun goBack() {
+    private fun goBack() {
         val goBackButton = rule.onNodeWithTag("BackButton")
         goBackButton.performClick()
+    }
+
+    private fun cancelButton() {
+        val cancelButton = rule.onNodeWithTag("CancelTrackButton")
+        cancelButton.performClick()
     }
 
 
