@@ -38,7 +38,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     description = "Puedes explorar los álbumes y artistas.",
                     onSelect = {
                         navController.navigate(AppRoutes.Albums.value) {
-                            userViewModel.signIn(role = Role.Visitor)
+                            userViewModel.signIn(role = Role.Guest)
                             // Delete previous route from stack
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             // Avoid duplicate instances in the stack

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 class UserRepository : IUserRepository {
-    private val user = MutableStateFlow(User(role = Role.Visitor))
+    private val user = MutableStateFlow(User(role = Role.Guest))
 
     override fun getUser() = user
 
