@@ -57,7 +57,7 @@ fun AlbumDetailScreen(
                 },
                 actions = {
                     if (userViewModel.isCollector) {
-                        IconButton(onClick = {
+                        IconButton(modifier = Modifier.testTag("CommentsButton"), onClick = {
                             val commentListScreenRoute =
                                 buildCommentListScreenRoute(viewModel.album!!.id)
                             navController.navigate(commentListScreenRoute)

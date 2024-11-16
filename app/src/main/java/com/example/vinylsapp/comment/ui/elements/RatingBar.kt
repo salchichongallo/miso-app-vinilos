@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -20,7 +21,7 @@ fun RatingBar(stars: Int? = null, onPressed: ((Int) -> Unit)? = null, size: Dp =
             val color =
                 if (currentStars > star) colorScheme.primary else colorScheme.inversePrimary
 
-            var modifier = Modifier.size(size)
+            var modifier = Modifier.size(size).testTag("Star$star")
             if (onPressed != null) {
                 modifier = modifier.clickable {
                     val newStars = if (star + 1 == currentStars) 0 else star + 1

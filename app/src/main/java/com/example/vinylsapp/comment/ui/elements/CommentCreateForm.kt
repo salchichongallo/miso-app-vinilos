@@ -15,6 +15,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -47,12 +48,12 @@ fun CommentCreateForm(viewModel: CommentCreateViewModel, onCancelCreateComment: 
                         size = 40.dp,
                         onPressed = {
                             viewModel.onRatingChange(it)
-                        }
+                        },
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
-                    modifier = Modifier.padding(bottom = 8.dp),
+                    modifier = Modifier.padding(bottom = 8.dp).testTag("DescriptionTextField"),
                     value = viewModel.description,
                     onValueChange = { viewModel.onDescriptionChange(it) },
                     label = { Text("Comentario") },
@@ -89,7 +90,7 @@ fun CommentCreateForm(viewModel: CommentCreateViewModel, onCancelCreateComment: 
                         onClick = {
                             viewModel.create()
                         },
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp).testTag("CommentButton"),
                     ) {
                         Text("Comentar")
                     }

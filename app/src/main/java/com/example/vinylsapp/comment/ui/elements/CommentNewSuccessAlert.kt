@@ -4,6 +4,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun CommentNewSuccessAlert(onDismiss: () -> Unit) {
@@ -12,7 +14,7 @@ fun CommentNewSuccessAlert(onDismiss: () -> Unit) {
         title = { Text("Comentario enviado") },
         text = { Text("El comentario fue enviado exitosamente.") },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = onDismiss, modifier = Modifier.testTag("DismissButton")) {
                 Text("Listo")
             }
         }
