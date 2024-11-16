@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
         val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService())
         val trackRepository =
             TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
-        val commentRepo = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService())
+        val commentRepo =
+            CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService())
 
         setContent {
             RootNavigation(albumRepo, trackRepository, commentRepository = commentRepo)
