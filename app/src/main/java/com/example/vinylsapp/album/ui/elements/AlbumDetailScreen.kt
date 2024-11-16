@@ -56,12 +56,14 @@ fun AlbumDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        val commentListScreenRoute =
-                            buildCommentListScreenRoute(viewModel.album!!.id)
-                        navController.navigate(commentListScreenRoute)
-                    }) {
-                        Icon(Icons.Outlined.ChatBubble, contentDescription = "Comentarios")
+                    if (userViewModel.isCollector) {
+                        IconButton(onClick = {
+                            val commentListScreenRoute =
+                                buildCommentListScreenRoute(viewModel.album!!.id)
+                            navController.navigate(commentListScreenRoute)
+                        }) {
+                            Icon(Icons.Outlined.ChatBubble, contentDescription = "Comentarios")
+                        }
                     }
                 }
             )
