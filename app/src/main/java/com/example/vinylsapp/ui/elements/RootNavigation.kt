@@ -20,6 +20,12 @@ import com.example.vinylsapp.artist.repositories.IArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
+import com.example.vinylsapp.comment.repositories.CommentRepository
+import com.example.vinylsapp.comment.repositories.ICommentRepository
+import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstance
+import com.example.vinylsapp.comment.ui.elements.CommentLitScreen
+import com.example.vinylsapp.comment.ui.viewmodels.CommentCreateViewModel
+import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
 import com.example.vinylsapp.login.ui.elements.LoginScreen
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
@@ -31,6 +37,7 @@ fun RootNavigation(
     albumRepo: IAlbumRepository,
     trackRepository: ITrackRepository,
     artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
+    commentRepository: ICommentRepository = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService()),
 ) {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel(albumRepo)
@@ -76,6 +83,22 @@ fun RootNavigation(
                         trackRepo = trackRepository,
                     ),
                     navController,
+                )
+            }
+
+            composable(route = AppRoutes.CommentList.value) { navBackStackEntry ->
+                val albumIdInput = navBackStackEntry.arguments?.getString("id")
+                val albumId = albumIdInput?.toIntOrNull()!!
+                CommentLitScreen(
+                    viewModel = CommentListViewModel(
+                        commentRepo = commentRepository,
+                        albumId = albumId,
+                    ),
+                    commentCreateViewModel = CommentCreateViewModel(
+                        albumId = albumId,
+                        commentRepo = commentRepository
+                    ),
+                    navController
                 )
             }
         }

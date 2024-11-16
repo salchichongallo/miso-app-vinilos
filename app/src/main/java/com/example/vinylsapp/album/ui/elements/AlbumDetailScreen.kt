@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.ChatBubble
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -29,6 +30,7 @@ import androidx.navigation.NavController
 import com.example.vinylsapp.album.tracks.ui.elements.AlbumTrackList
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
+import com.example.vinylsapp.models.buildCommentListScreenRoute
 import com.example.vinylsapp.models.buildTrackNewScreenRoute
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
@@ -49,6 +51,14 @@ fun AlbumDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        val commentListScreenRoute = buildCommentListScreenRoute(viewModel.album!!.id)
+                        navController.navigate(commentListScreenRoute)
+                    }) {
+                        Icon(Icons.Outlined.ChatBubble, contentDescription = "Comentarios")
                     }
                 }
             )
