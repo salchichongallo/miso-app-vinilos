@@ -6,7 +6,6 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.mocks.AlbumRepositoryMock
 import com.example.vinylsapp.album.mocks.EmptyTrackRepository
-import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.login.pom.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
@@ -29,14 +28,12 @@ class ArtistTest {
 
     @After
     fun sleep() {
-        Thread.sleep(5000)
+        Thread.sleep(2000)
     }
 
 
     @Test
     fun notArtistAvailable() {
-        val artist = listOf<Artist>()
-
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
@@ -45,7 +42,11 @@ class ArtistTest {
         }
 
         login.loginAsGuess()
-        composeTestRule.onNodeWithText("Artistas").performClick()
+        val artistButton = composeTestRule.onNodeWithText("Artistas")
+        artistButton.performClick()
+
+        val emptyArtistMessage = composeTestRule.onNodeWithText("No hay artistas disponibles")
+        emptyArtistMessage.assertExists()
 
     }
 }
