@@ -6,10 +6,10 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.mocks.AlbumRepositoryMock
-import com.example.vinylsapp.album.mocks.EmptyTrackRepository
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.models.AlbumGenre
 import com.example.vinylsapp.album.pom.AlbumScreenPom
+import com.example.vinylsapp.album.tracks.mock.TrackRepositoryMock
 import com.example.vinylsapp.login.pom.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
@@ -50,7 +50,7 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(album)),
-                trackRepository = EmptyTrackRepository()
+                trackRepository = TrackRepositoryMock(mutableListOf())
             )
         }
 
@@ -90,7 +90,7 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock1, albumMock2)),
-                trackRepository = EmptyTrackRepository(),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
             )
         }
 
@@ -127,7 +127,7 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock)),
-                trackRepository = EmptyTrackRepository(),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
             )
         }
 

@@ -10,7 +10,7 @@ import com.example.vinylsapp.comment.models.Comment
 fun CommentList(comments: List<Comment>) {
     LazyColumn {
         items(comments) {
-            CommentListItem(comment = it)
+            CommentListItem(comment = it, index = comments.indexOf(it))
             Divider()
         }
     }

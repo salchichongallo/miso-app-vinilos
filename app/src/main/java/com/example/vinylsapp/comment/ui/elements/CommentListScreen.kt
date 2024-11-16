@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -38,7 +39,7 @@ fun CommentLitScreen(viewModel: CommentListViewModel, commentCreateViewModel: Co
                 TopAppBar(
                     title = {},
                     navigationIcon = {
-                        IconButton(onClick = { navController.popBackStack() }) {
+                        IconButton(onClick = { navController.popBackStack() }, modifier = Modifier.testTag("BackButton")) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
                         }
                     },
@@ -56,6 +57,7 @@ fun CommentLitScreen(viewModel: CommentListViewModel, commentCreateViewModel: Co
         bottomBar = { VinylsBottomAppBar(navController) },
         floatingActionButton = {
             ExtendedFloatingActionButton(
+                modifier = Modifier.testTag("CreateCommentButton"),
                 onClick = { viewModel.openCommentCreateModal() },
                 icon = {
                     Icon(

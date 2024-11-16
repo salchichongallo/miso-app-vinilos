@@ -20,6 +20,10 @@ class AlbumDetailPom(
 
     fun cover() = rule.onNodeWithTag("AlbumCover")
 
+    fun commentsButton() = rule.onNodeWithTag("CommentsButton")
+
+    fun createTrackButton() = rule.onNodeWithTag("CreateTrackButton")
+
     fun hasTitle(value: String): AlbumDetailPom {
         title().assertTextEquals(value)
         return this

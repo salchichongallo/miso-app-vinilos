@@ -57,7 +57,7 @@ fun AlbumDetailScreen(
                 },
                 actions = {
                     if (userViewModel.isCollector) {
-                        IconButton(onClick = {
+                        IconButton(modifier = Modifier.testTag("CommentsButton"), onClick = {
                             val commentListScreenRoute =
                                 buildCommentListScreenRoute(viewModel.album!!.id)
                             navController.navigate(commentListScreenRoute)
@@ -76,7 +76,9 @@ fun AlbumDetailScreen(
                         val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!)
                         navController.navigate(trackNewRoute)
                     },
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .testTag("CreateTrackButton"),
                     elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 ) {
                     Row(
