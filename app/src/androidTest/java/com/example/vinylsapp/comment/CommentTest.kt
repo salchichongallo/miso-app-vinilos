@@ -50,6 +50,7 @@ class CommentTest {
     @Test
     fun shouldCreateCommentSuccessfully() {
         val commentDescription = "Excelente álbum${System.currentTimeMillis()}"
+        val commentRating = 5
         val album = Album(
             id = 100,
             name = "3 Buscando América",
@@ -67,8 +68,9 @@ class CommentTest {
 
         val albumDetail = goToAlbumDetail()
         goToAlbumComments(albumDetail)
-        openCommentCreateModal()
-        fillAndSubmitCommentForm(commentDescription)
+        commentList.openCommentCreateModal()
+        commentCreateForm.fillAndSubmitCommentForm(commentRating, commentDescription)
+        commentNewSuccessAlert.dismissButton().performClick()
 
         composeTestRule.onNodeWithText(commentDescription).assertExists()
     }
@@ -82,17 +84,5 @@ class CommentTest {
     private fun goToAlbumComments(albumDetailPom: AlbumDetailPom) {
         val albumCommentsButton = albumDetailPom.commentsButton()
         albumCommentsButton.performClick()
-    }
-
-    private fun openCommentCreateModal() {
-        val createCommentButton = commentList.createCommentButton()
-        createCommentButton.performClick()
-    }
-
-    private fun fillAndSubmitCommentForm(description: String) {
-        commentCreateForm.enterDescription(description)
-        commentCreateForm.enterRating(5)
-        commentCreateForm.commentButton().performClick()
-        commentNewSuccessAlert.dismissButton().performClick() // Close success alert
     }
 }
