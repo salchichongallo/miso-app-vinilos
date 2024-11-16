@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.vinylsapp.artist.models.Artist
@@ -16,6 +17,7 @@ import com.example.vinylsapp.artist.models.Artist
 @Composable
 fun ArtistPreviewItem(artist: Artist) {
     ListItem(
+        modifier = Modifier.testTag("artistItem"),
         leadingContent = {
             ArtistImage(url = artist.image, modifier = Modifier.size(56.dp))
         },
