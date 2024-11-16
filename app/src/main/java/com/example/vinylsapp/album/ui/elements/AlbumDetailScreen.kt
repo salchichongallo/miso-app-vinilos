@@ -76,7 +76,9 @@ fun AlbumDetailScreen(
                         val trackNewRoute = buildTrackNewScreenRoute(viewModel.album!!)
                         navController.navigate(trackNewRoute)
                     },
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .testTag("CreateTrackButton"),
                     elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 ) {
                     Row(

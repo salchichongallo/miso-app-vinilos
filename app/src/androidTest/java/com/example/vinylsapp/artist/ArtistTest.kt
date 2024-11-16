@@ -4,7 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.mocks.AlbumRepositoryMock
-import com.example.vinylsapp.album.mocks.EmptyTrackRepository
+import com.example.vinylsapp.album.tracks.mock.TrackRepositoryMock
 import com.example.vinylsapp.artist.mocks.ArtistRepositoryMock
 import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.pom.ArtistScreenPom
@@ -43,7 +43,7 @@ class ArtistTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
-                trackRepository = EmptyTrackRepository()
+                trackRepository = TrackRepositoryMock(mutableListOf())
             )
         }
 
@@ -70,7 +70,7 @@ class ArtistTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
-                trackRepository = EmptyTrackRepository(),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
                 artistRepository = ArtistRepositoryMock(artistListMock)
             )
         }
