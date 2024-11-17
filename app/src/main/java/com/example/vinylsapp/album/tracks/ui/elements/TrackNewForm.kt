@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -34,6 +35,7 @@ fun TrackNewForm(viewModel: TrackCreateViewModel, navController: NavController) 
             isError = viewModel.trackNameErrorMessage.isNotEmpty(),
             modifier = Modifier
                 .fillMaxWidth()
+                .testTag("NameTrackTextField")
                 .onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         viewModel.isTrackNameTouched = true
@@ -60,7 +62,7 @@ fun TrackNewForm(viewModel: TrackCreateViewModel, navController: NavController) 
                         digitsOnly.drop(2).take(2)
                     }"
 
-                    digitsOnly.length >= 1 -> digitsOnly
+                    digitsOnly.isNotEmpty() -> digitsOnly
                     else -> ""
                 }
 
@@ -79,6 +81,7 @@ fun TrackNewForm(viewModel: TrackCreateViewModel, navController: NavController) 
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
+                .testTag("DurationTrackTextField")
                 .padding(start = 0.dp, top = 2.dp)
                 .onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
@@ -105,14 +108,18 @@ fun TrackNewForm(viewModel: TrackCreateViewModel, navController: NavController) 
         ) {
             OutlinedButton(
                 onClick = { navController.popBackStack() },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("CancelTrackButton")
             ) {
                 Text("Cancelar y volver")
             }
 
             Button(
                 onClick = { viewModel.createTrack() },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("CreateTrackButton"),
                 enabled = viewModel.isTrackNameValid && viewModel.isTrackDurationValid
             ) {
                 Text("Agregar")

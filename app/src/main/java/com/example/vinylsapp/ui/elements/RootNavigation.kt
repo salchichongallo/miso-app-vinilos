@@ -20,7 +20,16 @@ import com.example.vinylsapp.artist.repositories.IArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
+import com.example.vinylsapp.comment.repositories.CommentRepository
+import com.example.vinylsapp.comment.repositories.ICommentRepository
+import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstance
+import com.example.vinylsapp.comment.ui.elements.CommentLitScreen
+import com.example.vinylsapp.comment.ui.viewmodels.CommentCreateViewModel
+import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
+import com.example.vinylsapp.login.repositories.IUserRepository
+import com.example.vinylsapp.login.repositories.UserRepository
 import com.example.vinylsapp.login.ui.elements.LoginScreen
+import com.example.vinylsapp.login.ui.viewmodels.UserViewModel
 import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.theme.VinylsAppTheme
 import com.google.gson.Gson
@@ -31,10 +40,13 @@ fun RootNavigation(
     albumRepo: IAlbumRepository,
     trackRepository: ITrackRepository,
     artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
+    commentRepository: ICommentRepository = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService()),
+    userRepository: IUserRepository = UserRepository(),
 ) {
     val navController = rememberNavController()
     val albumListViewModel = AlbumListViewModel(albumRepo)
     val artistListViewModel = ArtistListViewModel(artistRepo = artistRepository)
+    val userViewModel = UserViewModel(userRepo = userRepository)
 
     VinylsAppTheme {
         NavHost(
@@ -50,7 +62,7 @@ fun RootNavigation(
             }
 
             composable(route = AppRoutes.Login.value) {
-                LoginScreen(navController)
+                LoginScreen(navController, userViewModel = userViewModel)
             }
 
             composable(route = AppRoutes.AlbumDetail.value) { navBackStackEntry ->
@@ -63,6 +75,7 @@ fun RootNavigation(
                         trackRepo = trackRepository,
                     ),
                     navController = navController,
+                    userViewModel = userViewModel,
                 )
             }
 
@@ -76,6 +89,22 @@ fun RootNavigation(
                         trackRepo = trackRepository,
                     ),
                     navController,
+                )
+            }
+
+            composable(route = AppRoutes.CommentList.value) { navBackStackEntry ->
+                val albumIdInput = navBackStackEntry.arguments?.getString("id")
+                val albumId = albumIdInput?.toIntOrNull()!!
+                CommentLitScreen(
+                    viewModel = CommentListViewModel(
+                        commentRepo = commentRepository,
+                        albumId = albumId,
+                    ),
+                    commentCreateViewModel = CommentCreateViewModel(
+                        albumId = albumId,
+                        commentRepo = commentRepository
+                    ),
+                    navController
                 )
             }
         }

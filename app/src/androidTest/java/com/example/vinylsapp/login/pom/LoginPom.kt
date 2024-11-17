@@ -10,4 +10,8 @@ class LoginPom(val rule: ComposeTestRule) {
     fun loginAsGuess() {
         rule.onNodeWithText("Ingresar como invitado").performClick()
     }
+
+    fun loginAsCollector() {
+        rule.onNodeWithText("Ingresar como coleccionista").performClick()
+    }
 }

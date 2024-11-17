@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.vinylsapp.models.topLevelRoutes
@@ -21,16 +20,14 @@ fun VinylsBottomAppBar(navController: NavController) {
         NavigationBar {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
+            val currentRoute = currentDestination?.route
 
-            topLevelRoutes.forEach { topLevelRoute ->
-                val isSelected = currentDestination?.hierarchy?.any {
-                    it.hasRoute(topLevelRoute.route.value, arguments = null)
-                } == true
+            for (topLevelRoute in topLevelRoutes) {
                 NavigationBarItem(
                     icon = {
                         Icon(topLevelRoute.icon, contentDescription = null)
                     },
-                    selected = isSelected,
+                    selected = currentRoute == topLevelRoute.route.name,
                     label = { Text(text = topLevelRoute.title) },
                     onClick = {
                         navController.navigate(topLevelRoute.route.name) {

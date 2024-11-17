@@ -12,5 +12,5 @@ interface NetworkTrackServiceAdapter {
     suspend fun fetchTracks(@Path("albumId") albumId: Int): List<Track>
 
     @POST("albums/{albumId}/tracks")
-    suspend fun createTrack(@Path("albumId") albumId: Int, @Body trackNew: TrackNew): Unit
+    suspend fun createTrack(@Path("albumId") albumId: Int, @Body trackNew: TrackNew)
 }
