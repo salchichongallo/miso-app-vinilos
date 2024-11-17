@@ -43,7 +43,8 @@ class ArtistTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(listOf())
             )
         }
 
