@@ -19,10 +19,10 @@ class TrackListViewModel(private val trackRepo: ITrackRepository, private val al
 
     private fun load() {
         viewModelScope.launch {
-            try {
-                tracks = trackRepo.getAll(albumId)
+            tracks = try {
+                trackRepo.getAll(albumId)
             } catch (e: Exception) {
-                tracks = listOf()
+                listOf()
             }
         }
     }

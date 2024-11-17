@@ -25,10 +25,10 @@ class ArtistListViewModel(private val artistRepo: IArtistRepository) : ViewModel
 
     private suspend fun load() {
         loading = true
-        try {
-            artists = artistRepo.getAll()
+        artists = try {
+            artistRepo.getAll()
         } catch (error: Exception) {
-            artists = listOf()
+            listOf()
         } finally {
             loading = false
         }

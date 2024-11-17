@@ -12,12 +12,6 @@ class AlbumDetailPom(
 
     fun screen() = rule.onNodeWithTag("AlbumDetailScreen")
 
-    fun title() = rule.onNodeWithTag("AlbumTitle")
-
-    fun genre() = rule.onNodeWithTag("AlbumGenre")
-
-    fun year() = rule.onNodeWithTag("AlbumYear")
-
     fun cover() = rule.onNodeWithTag("AlbumCover")
 
     fun commentsButton() = rule.onNodeWithTag("CommentsButton")
@@ -43,4 +37,10 @@ class AlbumDetailPom(
         year().assertTextEquals(value)
         return this
     }
+
+    private fun title() = rule.onNodeWithTag("AlbumTitle")
+
+    private fun genre() = rule.onNodeWithTag("AlbumGenre")
+
+    private fun year() = rule.onNodeWithTag("AlbumYear")
 }

@@ -13,5 +13,5 @@ enum class AlbumGenre(val value: String) {
     ROCK("Rock"),
 
     @SerializedName("Folk")
-    FOLk("Folk"),
+    FOLK("Folk"),
 }

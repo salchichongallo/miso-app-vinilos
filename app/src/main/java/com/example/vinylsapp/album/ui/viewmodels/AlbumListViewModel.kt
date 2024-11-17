@@ -18,10 +18,10 @@ class AlbumListViewModel(private val albumRepo: IAlbumRepository) : ViewModel() 
 
     private fun load() {
         viewModelScope.launch {
-            try {
-                albums = albumRepo.getAll()
+            albums = try {
+                albumRepo.getAll()
             } catch (e: Exception) {
-                albums = listOf()
+                listOf()
             }
         }
     }

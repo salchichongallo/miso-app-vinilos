@@ -15,13 +15,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun RatingBar(stars: Int? = null, onPressed: ((Int) -> Unit)? = null, size: Dp = 20.dp) {
-    val currentStars = stars ?: -1;
+    val currentStars = stars ?: -1
     Row {
         for (star in 0..4) {
             val color =
                 if (currentStars > star) colorScheme.primary else colorScheme.inversePrimary
 
-            var modifier = Modifier.size(size).testTag("Star$star")
+            var modifier = Modifier
+                .size(size)
+                .testTag("Star$star")
             if (onPressed != null) {
                 modifier = modifier.clickable {
                     val newStars = if (star + 1 == currentStars) 0 else star + 1

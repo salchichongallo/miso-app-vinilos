@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Loader(text: String = "Cargando...", modifier: Modifier = Modifier) {
+fun Loader(modifier: Modifier = Modifier, text: String = "Cargando...") {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

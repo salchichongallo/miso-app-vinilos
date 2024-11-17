@@ -5,7 +5,7 @@ import com.example.vinylsapp.comment.repositories.ICommentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class CommentRepositoryMock() : ICommentRepository {
+class CommentRepositoryMock : ICommentRepository {
     private val comments = mutableListOf<Comment>()
     private val commentsFlow = MutableStateFlow<List<Comment>>(emptyList())
     private var commentIdCounter = 1

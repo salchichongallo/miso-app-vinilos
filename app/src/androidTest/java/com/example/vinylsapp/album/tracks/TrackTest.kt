@@ -76,7 +76,7 @@ class TrackTest {
             id = 100,
             name = "3 Buscando América",
             cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
-            genre = AlbumGenre.SALSA,
+            genre = AlbumGenre.ROCK,
             releaseDate = "1984-08-01T00:00:00.000Z"
         )
         composeTestRule.setContent {

@@ -9,9 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.comment.repositories.ICommentRepository
 import kotlinx.coroutines.launch
 
-class CommentCreateViewModel(private val commentRepo: ICommentRepository, private val albumId: Int) : ViewModel() {
+class CommentCreateViewModel(
+    private val commentRepo: ICommentRepository,
+    private val albumId: Int
+) : ViewModel() {
     var rating by mutableIntStateOf(0)
-    var description by mutableStateOf<String>("")
+    var description by mutableStateOf("")
 
     private val maxCommentLength = 500
     var errorMessage by mutableStateOf<String?>(null)
@@ -59,7 +62,7 @@ class CommentCreateViewModel(private val commentRepo: ICommentRepository, privat
         isErrorAlert = false
     }
 
-    fun resetAll () {
+    fun resetAll() {
         resetForm()
         isCreatingComment = true
         isSuccessAlert = false
