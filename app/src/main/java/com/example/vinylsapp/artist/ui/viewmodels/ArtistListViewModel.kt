@@ -26,7 +26,7 @@ class ArtistListViewModel(private val artistRepo: IArtistRepository) : ViewModel
     private suspend fun load() {
         loading = true
         artists = try {
-            artistRepo.getAll()
+            artistRepo.refreshData()
         } catch (error: Exception) {
             listOf()
         } finally {

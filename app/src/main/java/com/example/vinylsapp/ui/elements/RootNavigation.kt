@@ -26,6 +26,7 @@ import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstan
 import com.example.vinylsapp.comment.ui.elements.CommentLitScreen
 import com.example.vinylsapp.comment.ui.viewmodels.CommentCreateViewModel
 import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
+import com.example.vinylsapp.database.dao.ArtistsDao
 import com.example.vinylsapp.login.repositories.IUserRepository
 import com.example.vinylsapp.login.repositories.UserRepository
 import com.example.vinylsapp.login.ui.elements.LoginScreen
@@ -39,7 +40,7 @@ import com.google.gson.Gson
 fun RootNavigation(
     albumRepo: IAlbumRepository,
     trackRepository: ITrackRepository,
-    artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
+    artistRepository: IArtistRepository,
     commentRepository: ICommentRepository = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService()),
     userRepository: IUserRepository = UserRepository(),
 ) {

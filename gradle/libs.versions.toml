@@ -22,6 +22,9 @@ truth = "1.6.0"
 uiTestJunit4 = "1.7.5"
 uiTestManifest = "1.7.5"
 gson = "2.11.0"
+roomKtx = "2.7.0-alpha11"
+roomRuntime = "2.7.0-alpha11"
+roomCompiler = "2.7.0-alpha11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +55,9 @@ androidx-truth = { group = "androidx.test.ext", name = "truth", version.ref = "t
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "uiTestManifest" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
