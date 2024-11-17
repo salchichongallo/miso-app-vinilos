@@ -12,5 +12,5 @@ interface NetworkCommentServiceAdapter {
     suspend fun fetchComments(@Path("albumId") albumId: Int): List<Comment>
 
     @POST("albums/{albumId}/comments")
-    suspend fun createComment(@Body() newComment: NewComment, @Path("albumId") albumId: Int): Comment
+    suspend fun createComment(@Body newComment: NewComment, @Path("albumId") albumId: Int): Comment
 }

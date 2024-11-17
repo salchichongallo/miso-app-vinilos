@@ -10,7 +10,7 @@ import com.example.vinylsapp.artist.models.Artist
 fun ArtistListItems(artists: List<Artist>) {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(artists.size) { index ->
-            ArtistPreviewItem(artist = artists.get(index))
+            ArtistPreviewItem(artist = artists[index])
         }
     }
 }

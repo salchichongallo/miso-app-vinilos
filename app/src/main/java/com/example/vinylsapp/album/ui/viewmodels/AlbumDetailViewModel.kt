@@ -19,10 +19,10 @@ class AlbumDetailViewModel(private val albumId: Int, private val albumRepo: IAlb
 
     private fun load() {
         viewModelScope.launch {
-            try {
-                album = albumRepo.getOne(albumId)
+            album = try {
+                albumRepo.getOne(albumId)
             } catch (e: Exception) {
-                album = null
+                null
             }
         }
     }

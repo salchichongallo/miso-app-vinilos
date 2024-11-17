@@ -62,7 +62,7 @@ fun TrackNewForm(viewModel: TrackCreateViewModel, navController: NavController) 
                         digitsOnly.drop(2).take(2)
                     }"
 
-                    digitsOnly.length >= 1 -> digitsOnly
+                    digitsOnly.isNotEmpty() -> digitsOnly
                     else -> ""
                 }
 
