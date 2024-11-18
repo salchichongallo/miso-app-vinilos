@@ -56,7 +56,7 @@ fun RootNavigation(
             startDestination = AppRoutes.Login.value,
         ) {
             composable(route = AppRoutes.Albums.value) {
-                AlbumListScreen(viewModel = albumListViewModel, navController = navController)
+                AlbumListScreen(viewModel = albumListViewModel, navController = navController, userViewModel = userViewModel)
             }
 
             composable(route = AppRoutes.Artists.value) {
