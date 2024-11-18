@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.login.ui.viewmodels.UserViewModel
+import com.example.vinylsapp.models.AppRoutes
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +33,9 @@ fun AlbumListScreen(viewModel: AlbumListViewModel, navController: NavController,
         floatingActionButton = {
             if (userViewModel.isCollector) {
                 ExtendedFloatingActionButton(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(AppRoutes.AlbumCreate.value)
+                    },
                     icon = {
                         Icon(
                             Icons.Filled.Add,
