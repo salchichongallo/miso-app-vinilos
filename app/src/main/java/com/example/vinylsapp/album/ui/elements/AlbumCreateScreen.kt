@@ -33,6 +33,8 @@ fun AlbumCreateScreen(
         },
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {}
+        Surface(modifier = Modifier.padding(innerPadding)) {
+            AlbumCreateForm()
+        }
     }
 }
