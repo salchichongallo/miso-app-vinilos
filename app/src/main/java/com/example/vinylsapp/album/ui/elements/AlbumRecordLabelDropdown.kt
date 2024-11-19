@@ -1,7 +1,8 @@
 package com.example.vinylsapp.album.ui.elements
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -21,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.example.vinylsapp.album.models.AlbumRecordLabel
 
 @ExperimentalMaterial3Api
@@ -32,10 +34,11 @@ fun AlbumRecordLabelDropdown(selectedLabel: AlbumRecordLabel?, onLabelSelected: 
     Box {
         OutlinedTextField(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .onGloballyPositioned { coordinates ->
                     textFieldWidth = coordinates.size.width
-                },
+                }
+                .padding(bottom = 16.dp),
             value = selectedLabel?.value ?: "Seleccione",
             onValueChange = {},
             readOnly = true,

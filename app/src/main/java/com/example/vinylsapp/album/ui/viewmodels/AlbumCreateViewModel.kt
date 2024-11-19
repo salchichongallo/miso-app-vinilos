@@ -4,30 +4,111 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.vinylsapp.album.models.AlbumCreate
+import androidx.lifecycle.viewModelScope
+import com.example.vinylsapp.album.models.AlbumErrors
+import com.example.vinylsapp.album.models.AlbumNew
 import com.example.vinylsapp.album.models.AlbumGenre
 import com.example.vinylsapp.album.models.AlbumRecordLabel
-import com.example.vinylsapp.comment.repositories.ICommentRepository
+import com.example.vinylsapp.album.repositories.IAlbumRepository
+import com.example.vinylsapp.album.utils.validators.validateAlbumCover
+import com.example.vinylsapp.album.utils.validators.validateAlbumDescription
+import com.example.vinylsapp.album.utils.validators.validateAlbumName
+import com.example.vinylsapp.album.utils.validators.validateAlbumReleaseDate
+import kotlinx.coroutines.launch
+import java.util.Date
 
-class AlbumCreateViewModel(private val commentRepo: ICommentRepository) : ViewModel() {
+class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : ViewModel() {
+    var successDialogVisible by mutableStateOf(false)
+    var errorDialogVisible by mutableStateOf(false)
+
     var album by mutableStateOf(
-        AlbumCreate(
+        AlbumNew(
             name = "",
             cover = "",
-            releaseDate = "",
+            releaseDate = null,
             genre = null,
             recordLabel = null,
             description = ""
         )
     )
+        private set
 
-    fun updateAlbum(name: String? = null, cover: String? = null, genre: AlbumGenre? = null, recordLabel: AlbumRecordLabel? = null, description: String? = null) {
-        album = album.copy(
-            name = name ?: album.name,
-            cover = cover ?: album.cover,
-            genre = genre ?: album.genre,
-            recordLabel = recordLabel ?: album.recordLabel,
-            description = description ?: album.description
+    var albumErrors by mutableStateOf(AlbumErrors())
+        private set
+
+    fun updateAlbumName(name: String) {
+        album = album.copy(name = name)
+        albumErrors = albumErrors.copy(nameError = validateAlbumName(name))
+    }
+
+    fun updateAlbumCover(cover: String) {
+        album = album.copy(cover = cover)
+        albumErrors = albumErrors.copy(coverError = validateAlbumCover(cover))
+    }
+
+    fun updateAlbumReleaseDate(releaseDate: Date) {
+        album = album.copy(releaseDate = releaseDate)
+        albumErrors = albumErrors.copy(releaseDateError = validateAlbumReleaseDate(releaseDate))
+    }
+
+    fun updateAlbumGenre(genre: AlbumGenre) {
+        album = album.copy(genre = genre)
+    }
+
+    fun updateAlbumRecordLabel(recordLabel: AlbumRecordLabel) {
+        album = album.copy(recordLabel = recordLabel)
+    }
+
+    fun updateAlbumDescription(description: String) {
+        album = album.copy(description = description)
+        albumErrors = albumErrors.copy(descriptionError = validateAlbumDescription(description))
+    }
+
+    fun create() {
+        if (!isFormValid()) return
+        viewModelScope.launch {
+            try {
+                albumRepository.add(album)
+                showSuccessDialog()
+                resetForm()
+            } catch (e: Exception) {
+                showErrorDialog()
+            }
+        }
+
+    }
+
+    fun isFormValid(): Boolean {
+        val nameError = validateAlbumName(album.name)
+        val descriptionError = validateAlbumDescription(album.description)
+
+        albumErrors = albumErrors.copy(
+            nameError = nameError,
+            descriptionError = descriptionError
         )
+
+        return nameError == null && descriptionError == null
+    }
+
+    private fun showSuccessDialog() {
+        successDialogVisible = true
+        errorDialogVisible = false
+    }
+
+    private fun showErrorDialog() {
+        successDialogVisible = false
+        errorDialogVisible = true
+    }
+
+    private fun resetForm() {
+        album = AlbumNew(
+            name = "",
+            cover = "",
+            releaseDate = null,
+            genre = null,
+            recordLabel = null,
+            description = ""
+        )
+        albumErrors = AlbumErrors()
     }
 }

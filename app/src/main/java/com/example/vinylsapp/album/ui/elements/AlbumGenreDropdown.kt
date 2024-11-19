@@ -2,6 +2,7 @@ package com.example.vinylsapp.album.ui.elements
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -21,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.example.vinylsapp.album.models.AlbumGenre
 
 @ExperimentalMaterial3Api
@@ -29,7 +31,10 @@ fun AlbumGenreDropdown(selectedGenre: AlbumGenre?, onGenreSelected: (AlbumGenre)
     var expanded by remember { mutableStateOf(false) }
     var textFieldWidth by remember { mutableIntStateOf(0) }
 
-    Box {
+    Box(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+    ) {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
