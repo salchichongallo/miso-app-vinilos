@@ -13,11 +13,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumCreateScreen(
+    viewModel: AlbumCreateViewModel,
     navController: NavController
 ) {
     Scaffold(
@@ -34,7 +36,7 @@ fun AlbumCreateScreen(
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            AlbumCreateForm(navController)
+            AlbumCreateForm(viewModel, navController)
         }
     }
 }
