@@ -35,12 +35,12 @@ import java.util.Locale
 @Composable
 fun AlbumReleaseDateField(
     albumReleaseDateError: String?,
-    onSelectedDate: (Date) -> Unit
+    onSelectedDate: (Date) -> Unit,
+    value: Date? = null
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val todayInMillis = System.currentTimeMillis()
     val datePickerState = rememberDatePickerState()
-    var selectedDate by remember { mutableStateOf<Date?>(null) }
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -48,7 +48,7 @@ fun AlbumReleaseDateField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxSize(),
-            value = selectedDate?.let { convertDateToString(it) } ?: "",
+            value = value?.let { convertDateToString(it) } ?: "",
             onValueChange = { },
             label = { Text("Fecha de lanzamiento") },
             placeholder = { Text("DD/MM/YYYY") },
@@ -99,7 +99,6 @@ fun AlbumReleaseDateField(
         LaunchedEffect(datePickerState.selectedDateMillis) {
             if (datePickerState.selectedDateMillis != null) {
                 val date = Date(datePickerState.selectedDateMillis!!)
-                selectedDate = date
                 onSelectedDate(date)
                 showDatePicker = false
             }
