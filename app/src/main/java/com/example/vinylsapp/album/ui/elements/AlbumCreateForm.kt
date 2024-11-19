@@ -72,7 +72,8 @@ fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavControlle
             albumReleaseDateError = viewModel.albumErrors.releaseDateError,
             onSelectedDate = {
                 viewModel.updateAlbumReleaseDate(releaseDate = it)
-            }
+            },
+            value = viewModel.album.releaseDate
         )
 
         AlbumGenreDropdown(
