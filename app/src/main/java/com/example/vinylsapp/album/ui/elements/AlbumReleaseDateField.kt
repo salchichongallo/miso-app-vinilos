@@ -33,12 +33,14 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumReleaseDateField() {
+fun AlbumReleaseDateField(
+    albumReleaseDateError: String?,
+    onSelectedDate: (Date) -> Unit
+) {
     var showDatePicker by remember { mutableStateOf(false) }
+    val todayInMillis = System.currentTimeMillis()
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
+    var selectedDate by remember { mutableStateOf<Date?>(null) }
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -46,7 +48,7 @@ fun AlbumReleaseDateField() {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxSize(),
-            value = selectedDate,
+            value = selectedDate?.let { convertDateToString(it) } ?: "",
             onValueChange = { },
             label = { Text("Fecha de lanzamiento") },
             placeholder = { Text("DD/MM/YYYY") },
@@ -58,6 +60,16 @@ fun AlbumReleaseDateField() {
                     )
                 }
             },
+            readOnly = true,
+            isError = albumReleaseDateError != null,
+            supportingText = {
+                if (albumReleaseDateError != null) {
+                    Text(
+                        text = albumReleaseDateError,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         )
 
         if (showDatePicker) {
@@ -75,7 +87,10 @@ fun AlbumReleaseDateField() {
                 ) {
                     DatePicker(
                         state = datePickerState,
-                        showModeToggle = false
+                        showModeToggle = false,
+                        dateValidator = { selectedMillis ->
+                            selectedMillis >= todayInMillis
+                        }
                     )
                 }
             }
@@ -83,13 +98,16 @@ fun AlbumReleaseDateField() {
 
         LaunchedEffect(datePickerState.selectedDateMillis) {
             if (datePickerState.selectedDateMillis != null) {
+                val date = Date(datePickerState.selectedDateMillis!!)
+                selectedDate = date
+                onSelectedDate(date)
                 showDatePicker = false
             }
         }
     }
 }
 
-fun convertMillisToDate(millis: Long): String {
+fun convertDateToString(date: Date): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
+    return formatter.format(date)
 }

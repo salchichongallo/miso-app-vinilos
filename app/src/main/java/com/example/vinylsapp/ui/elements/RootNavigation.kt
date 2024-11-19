@@ -140,7 +140,7 @@ fun RootNavigation(
             ) {
                 AlbumCreateScreen(
                     viewModel = AlbumCreateViewModel(
-                        commentRepo = commentRepository,
+                        albumRepository = albumRepo
                     ),
                     navController = navController
                 )

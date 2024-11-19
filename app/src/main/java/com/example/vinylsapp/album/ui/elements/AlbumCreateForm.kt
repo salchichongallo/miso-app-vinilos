@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,38 +28,61 @@ fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavControlle
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = viewModel.album.name,
             onValueChange = {
-                viewModel.updateAlbum(name = it)
+                viewModel.updateAlbumName(name = it)
             },
             label = { Text("Nombre") },
             placeholder = { Text("Ingrese el nombre del álbum") },
+            isError = viewModel.albumErrors.nameError != null,
+            supportingText = {
+                if (viewModel.albumErrors.nameError != null) {
+                    Text(
+                        text = viewModel.albumErrors.nameError!!,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = viewModel.album.cover,
             onValueChange = {
-                viewModel.updateAlbum(cover = it)
+                viewModel.updateAlbumCover(cover = it)
             },
-            label = { Text("cover") },
+            label = { Text("Cover") },
             placeholder = { Text("Ingrese el cover del álbum") },
+            isError = viewModel.albumErrors.coverError != null,
+            supportingText = {
+                if (viewModel.albumErrors.coverError != null) {
+                    Text(
+                        text = viewModel.albumErrors.coverError!!,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         )
 
-        AlbumReleaseDateField()
+        AlbumReleaseDateField(
+            albumReleaseDateError = viewModel.albumErrors.releaseDateError,
+            onSelectedDate = {
+                viewModel.updateAlbumReleaseDate(releaseDate = it)
+            }
+        )
 
         AlbumGenreDropdown(
             selectedGenre = viewModel.album.genre,
-            onGenreSelected = { genre -> viewModel.updateAlbum(genre = genre) }
+            onGenreSelected = { genre -> viewModel.updateAlbumGenre(genre = genre) }
         )
 
         AlbumRecordLabelDropdown(
             selectedLabel = viewModel.album.recordLabel,
-            onLabelSelected = { label -> viewModel.updateAlbum(recordLabel = label) }
+            onLabelSelected = { label -> viewModel.updateAlbumRecordLabel(recordLabel = label) }
         )
 
         OutlinedTextField(
@@ -66,12 +90,21 @@ fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavControlle
                 .fillMaxSize(),
             value = viewModel.album.description,
             onValueChange = {
-                viewModel.updateAlbum(description = it)
+                viewModel.updateAlbumDescription(description = it)
             },
             placeholder = { Text("Ingrese la descripción del álbum") },
             label = { Text("Descripción") },
             maxLines = 5,
             minLines = 5,
+            isError = viewModel.albumErrors.descriptionError != null,
+            supportingText = {
+                if (viewModel.albumErrors.descriptionError != null) {
+                    Text(
+                        text = viewModel.albumErrors.descriptionError!!,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         )
 
         Row(
@@ -89,7 +122,10 @@ fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavControlle
             }
 
             Button(
-                onClick = { },
+                enabled = viewModel.isFormValid(),
+                onClick = {
+                    viewModel.create()
+                },
                 modifier = Modifier
                     .weight(1f)
             ) {
