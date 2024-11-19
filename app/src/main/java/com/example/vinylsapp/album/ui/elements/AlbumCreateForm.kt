@@ -14,22 +14,14 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.vinylsapp.album.models.AlbumGenre
-import com.example.vinylsapp.album.models.AlbumRecordLabel
+import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumCreateForm(navController: NavController) {
-    var selectedGenre by remember { mutableStateOf<AlbumGenre?>(null) }
-    var selectedRecordLabel by remember { mutableStateOf<AlbumRecordLabel?>(null) }
-
+fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,16 +31,20 @@ fun AlbumCreateForm(navController: NavController) {
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
-            value = "",
-            onValueChange = {},
+            value = viewModel.album.name,
+            onValueChange = {
+                viewModel.updateAlbum(name = it)
+            },
             label = { Text("Nombre") },
             placeholder = { Text("Ingrese el nombre del álbum") },
         )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
-            value = "",
-            onValueChange = {},
+            value = viewModel.album.cover,
+            onValueChange = {
+                viewModel.updateAlbum(cover = it)
+            },
             label = { Text("cover") },
             placeholder = { Text("Ingrese el cover del álbum") },
         )
@@ -56,24 +52,22 @@ fun AlbumCreateForm(navController: NavController) {
         AlbumReleaseDateField()
 
         AlbumGenreDropdown(
-            selectedGenre = selectedGenre,
-            onGenreSelected = { genre ->
-                selectedGenre = genre
-            }
+            selectedGenre = viewModel.album.genre,
+            onGenreSelected = { genre -> viewModel.updateAlbum(genre = genre) }
         )
 
         AlbumRecordLabelDropdown(
-            selectedLabel = selectedRecordLabel,
-            onLabelSelected = { label ->
-                selectedRecordLabel = label
-            }
+            selectedLabel = viewModel.album.recordLabel,
+            onLabelSelected = { label -> viewModel.updateAlbum(recordLabel = label) }
         )
 
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxSize(),
-            value = "",
-            onValueChange = {  },
+            value = viewModel.album.description,
+            onValueChange = {
+                viewModel.updateAlbum(description = it)
+            },
             placeholder = { Text("Ingrese la descripción del álbum") },
             label = { Text("Descripción") },
             maxLines = 5,

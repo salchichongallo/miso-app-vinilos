@@ -17,6 +17,7 @@ import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
 import com.example.vinylsapp.album.ui.elements.AlbumCreateScreen
 import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
+import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.artist.repositories.ArtistRepository
@@ -138,7 +139,10 @@ fun RootNavigation(
                 }
             ) {
                 AlbumCreateScreen(
-                    navController
+                    viewModel = AlbumCreateViewModel(
+                        commentRepo = commentRepository,
+                    ),
+                    navController = navController
                 )
             }
         }
