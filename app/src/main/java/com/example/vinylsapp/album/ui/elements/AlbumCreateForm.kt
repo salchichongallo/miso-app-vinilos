@@ -9,17 +9,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.vinylsapp.album.models.AlbumGenre
+import com.example.vinylsapp.album.models.AlbumRecordLabel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumCreateForm(navController: NavController) {
+    var selectedGenre by remember { mutableStateOf<AlbumGenre?>(null) }
+    var selectedRecordLabel by remember { mutableStateOf<AlbumRecordLabel?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,6 +44,7 @@ fun AlbumCreateForm(navController: NavController) {
             label = { Text("Nombre") },
             placeholder = { Text("Ingrese el nombre del álbum") },
         )
+
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = "",
@@ -41,7 +52,23 @@ fun AlbumCreateForm(navController: NavController) {
             label = { Text("cover") },
             placeholder = { Text("Ingrese el cover del álbum") },
         )
+
         AlbumReleaseDateField()
+
+        AlbumGenreDropdown(
+            selectedGenre = selectedGenre,
+            onGenreSelected = { genre ->
+                selectedGenre = genre
+            }
+        )
+
+        AlbumRecordLabelDropdown(
+            selectedLabel = selectedRecordLabel,
+            onLabelSelected = { label ->
+                selectedRecordLabel = label
+            }
+        )
+
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxSize(),
