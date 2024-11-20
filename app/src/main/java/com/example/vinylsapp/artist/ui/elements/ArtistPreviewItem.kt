@@ -1,5 +1,6 @@
 package com.example.vinylsapp.artist.ui.elements
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -12,12 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.vinylsapp.artist.models.Artist
 
 @Composable
-fun ArtistPreviewItem(artist: Artist) {
+fun ArtistPreviewItem(artist: Artist, navController: NavController) {
     ListItem(
-        modifier = Modifier.testTag("artistItem"),
+        modifier = Modifier
+            .testTag("artistItem")
+            .clickable {
+                navController.navigate("/artists/detail") {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
         leadingContent = {
             ArtistImage(url = artist.image, modifier = Modifier.size(56.dp))
         },

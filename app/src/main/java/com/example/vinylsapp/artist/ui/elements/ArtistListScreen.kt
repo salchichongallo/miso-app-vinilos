@@ -26,7 +26,7 @@ fun ArtistListScreen(viewModel: ArtistListViewModel, navController: NavControlle
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
             if (viewModel.artists.isNotEmpty()) {
-                ArtistListItems(artists = viewModel.artists)
+                ArtistListItems(artists = viewModel.artists, navController = navController)
             } else if (viewModel.loading) {
                 Loader()
             } else {
