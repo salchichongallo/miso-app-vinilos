@@ -15,6 +15,7 @@ import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
+import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.IArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
@@ -110,7 +111,10 @@ fun RootNavigation(
             }
 
             composable(route = AppRoutes.ArtistDetail.value) {
-                ArtistDetailScreen(navController = navController)
+                val gson = Gson()
+                val serializedArtist = it.arguments?.getString("artist") ?: ""
+                val artist = gson.fromJson(serializedArtist, Artist::class.java)
+                ArtistDetailScreen(navController = navController, artist = artist)
             }
         }
     }

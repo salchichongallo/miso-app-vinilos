@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.vinylsapp.artist.models.Artist
+import com.example.vinylsapp.models.buildArtistDetailRoute
 
 @Composable
 fun ArtistPreviewItem(artist: Artist, navController: NavController) {
@@ -23,7 +24,8 @@ fun ArtistPreviewItem(artist: Artist, navController: NavController) {
         modifier = Modifier
             .testTag("artistItem")
             .clickable {
-                navController.navigate("/artists/detail") {
+                val artistDetailRoute = buildArtistDetailRoute(artist)
+                navController.navigate(artistDetailRoute) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }

@@ -11,11 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArtistDetailScreen(navController: NavController) {
+fun ArtistDetailScreen(navController: NavController, artist: Artist) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -37,6 +38,7 @@ fun ArtistDetailScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(text = "Artist Detail Screen")
+                Text(text = artist.name)
             }
         }
     }
