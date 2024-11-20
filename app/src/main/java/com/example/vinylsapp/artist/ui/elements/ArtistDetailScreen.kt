@@ -1,12 +1,10 @@
 package com.example.vinylsapp.artist.ui.elements
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,14 +49,8 @@ fun ArtistDetailScreen(viewModel: ArtistDetailViewModel, navController: NavContr
                     ArtistDetailHero(artist = artist)
                     ArtistDetailDescription(description = artist.description)
                     Spacer(Modifier.height(8.dp))
-                    SectionHeader(title = "Álbumes")
-                    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(artist.albums.size) { index ->
-                            ArtistAlbumItem(
-                                album = artist.albums[index],
-                                navController = navController
-                            )
-                        }
+                    if (artist.albums.isNotEmpty()) {
+                        ArtistAlbumSection(albums = artist.albums, navController = navController)
                     }
                 }
             }
