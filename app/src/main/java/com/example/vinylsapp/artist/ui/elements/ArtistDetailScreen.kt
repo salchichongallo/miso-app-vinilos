@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistDetailViewModel
+import com.example.vinylsapp.ui.elements.Loader
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +42,9 @@ fun ArtistDetailScreen(viewModel: ArtistDetailViewModel, navController: NavContr
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
+            if (viewModel.loading) {
+                Loader()
+            }
             if (viewModel.artist != null) {
                 val artist = viewModel.artist!!
                 Column {

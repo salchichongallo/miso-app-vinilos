@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.IArtistRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ArtistDetailViewModel(
@@ -15,12 +16,20 @@ class ArtistDetailViewModel(
 ) :
     ViewModel() {
 
+    var loading by mutableStateOf(false)
     var artist by mutableStateOf<Artist?>(null)
 
     init {
+        loadArtist()
+    }
+
+    private fun loadArtist() {
+        loading = true
         viewModelScope.launch {
+            delay(1000) // add extra delay to avoid flash
             artistRepo.getBy(artistId).collect {
                 artist = it
+                loading = false
             }
         }
     }
