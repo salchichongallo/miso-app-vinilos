@@ -19,7 +19,7 @@ fun ArtistDetailScreen(navController: NavController, artist: Artist) {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = "Artist") },
+                title = { Text(text = "Artista") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
