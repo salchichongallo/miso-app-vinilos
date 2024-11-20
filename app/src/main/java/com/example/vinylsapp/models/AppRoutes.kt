@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.outlined.Groups
 import com.example.vinylsapp.album.models.Album
+import com.example.vinylsapp.artist.models.Artist
 import com.google.gson.Gson
 
 enum class AppRoutes(val value: String) {
@@ -13,7 +14,8 @@ enum class AppRoutes(val value: String) {
     Login("login"),
     AlbumDetail("albums/{id}"),
     TrackCreate("/albums/new-track?album={album}"),
-    CommentList("/albums/{id}/comments")
+    CommentList("/albums/{id}/comments"),
+    ArtistDetail("/artists/detail?artist={artist}"),
 }
 
 val topLevelRoutes = listOf(
@@ -37,3 +39,9 @@ fun buildCommentListScreenRoute(albumId: Int) = AppRoutes.CommentList.value.repl
     oldValue = "{id}",
     newValue = albumId.toString()
 )
+
+fun buildArtistDetailRoute(artist: Artist): String {
+    val gson = Gson()
+    val serializedArtist = gson.toJson(artist)
+    return AppRoutes.ArtistDetail.value.replace("{artist}", serializedArtist)
+}
