@@ -1,6 +1,5 @@
 package com.example.vinylsapp.artist.ui.elements
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.vinylsapp.artist.models.Artist
@@ -32,7 +30,10 @@ fun ArtistDetailScreen(navController: NavController, artist: Artist) {
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            ArtistDetailHero(artist = artist)
+            Column {
+                ArtistDetailHero(artist = artist)
+                ArtistDetailDescription(description = artist.description)
+            }
         }
     }
 }
