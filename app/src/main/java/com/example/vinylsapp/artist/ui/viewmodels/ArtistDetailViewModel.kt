@@ -1,33 +1,34 @@
 package com.example.vinylsapp.artist.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.IArtistRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ArtistListViewModel(private val artistRepo: IArtistRepository) : ViewModel() {
-    var artists = artistRepo.getAll()
+class ArtistDetailViewModel(
+    private val artistId: Int,
+    private val artistRepo: IArtistRepository,
+) :
+    ViewModel() {
+
     var loading by mutableStateOf(false)
-    var hasError by mutableStateOf(false)
+    var artist by mutableStateOf<Artist?>(null)
 
     init {
-        loadArtists()
+        loadArtist()
     }
 
-    fun loadArtists() {
+    private fun loadArtist() {
+        loading = true
         viewModelScope.launch {
-            loading = true
-            try {
-                artistRepo.fetchAll()
-                hasError = false
-            } catch (error: Exception) {
-                Log.e("artist", "Could not fetch artists", error)
-                hasError = true
-            } finally {
+            delay(1000) // add extra delay to avoid flash
+            artistRepo.getBy(artistId).collect {
+                artist = it
                 loading = false
             }
         }
