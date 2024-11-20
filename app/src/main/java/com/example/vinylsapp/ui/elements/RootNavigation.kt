@@ -145,6 +145,29 @@ fun RootNavigation(
                     navController = navController
                 )
             }
+
+            composable(
+                route = AppRoutes.AlbumCreate.value,
+                enterTransition = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                }
+            ) {
+                AlbumCreateScreen(
+                    viewModel = AlbumCreateViewModel(
+                        albumRepository = albumRepo
+                    ),
+                    navController = navController
+                )
+            }
         }
     }
 }
