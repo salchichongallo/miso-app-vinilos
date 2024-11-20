@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 interface IArtistRepository {
     fun getAll(): StateFlow<List<Artist>>
     suspend fun fetchAll()
+
+    suspend fun getBy(artistId: Int): StateFlow<Artist?>
 }

@@ -2,8 +2,12 @@ package com.example.vinylsapp.artist.repositories
 
 import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.services.NetworkArtistServiceAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter) :
     IArtistRepository {
@@ -16,5 +20,10 @@ class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter) 
 
     override suspend fun fetchAll() {
         artists.emit(value = serviceAdapter.fetchArtists())
+    }
+
+    override suspend fun getBy(artistId: Int): StateFlow<Artist?> {
+        val artistFlow = artists.map { items -> items.firstOrNull { it.id == artistId } }
+        return artistFlow.stateIn(scope = CoroutineScope(Dispatchers.Default))
     }
 }

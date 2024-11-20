@@ -15,12 +15,12 @@ import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
-import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.IArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistDetailScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
+import com.example.vinylsapp.artist.ui.viewmodels.ArtistDetailViewModel
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.comment.repositories.CommentRepository
 import com.example.vinylsapp.comment.repositories.ICommentRepository
@@ -111,10 +111,11 @@ fun RootNavigation(
             }
 
             composable(route = AppRoutes.ArtistDetail.value) {
-                val gson = Gson()
-                val serializedArtist = it.arguments?.getString("artist") ?: ""
-                val artist = gson.fromJson(serializedArtist, Artist::class.java)
-                ArtistDetailScreen(navController = navController, artist = artist)
+                val artistId = it.arguments?.getString("artistId")?.toInt()!!
+                ArtistDetailScreen(
+                    viewModel = ArtistDetailViewModel(artistId, artistRepository),
+                    navController = navController,
+                )
             }
         }
     }
