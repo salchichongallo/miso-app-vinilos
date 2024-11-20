@@ -123,7 +123,7 @@ fun AlbumCreateForm(viewModel: AlbumCreateViewModel, navController: NavControlle
             }
 
             Button(
-                enabled = viewModel.isFormValid(),
+                enabled = viewModel.isFormValid,
                 onClick = {
                     viewModel.create()
                 },

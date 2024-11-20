@@ -20,6 +20,7 @@ import java.util.Date
 class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : ViewModel() {
     var successDialogVisible by mutableStateOf(false)
     var errorDialogVisible by mutableStateOf(false)
+    var isFormValid by mutableStateOf(false)
 
     var album by mutableStateOf(
         AlbumNew(
@@ -65,7 +66,7 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
     }
 
     fun create() {
-        if (!isFormValid()) return
+        if (!verifiyIfFormIsValid()) return
         viewModelScope.launch {
             try {
                 albumRepository.add(album)
@@ -78,16 +79,14 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
 
     }
 
-    fun isFormValid(): Boolean {
-        val nameError = validateAlbumName(album.name)
-        val descriptionError = validateAlbumDescription(album.description)
-
-        albumErrors = albumErrors.copy(
-            nameError = nameError,
-            descriptionError = descriptionError
-        )
-
-        return nameError == null && descriptionError == null
+    private fun verifiyIfFormIsValid(): Boolean {
+        isFormValid = albumErrors.nameError == null &&
+                albumErrors.coverError == null &&
+                albumErrors.releaseDateError == null &&
+                albumErrors.descriptionError == null &&
+                album.genre != null &&
+                album.recordLabel != null
+        return isFormValid
     }
 
     private fun showSuccessDialog() {
