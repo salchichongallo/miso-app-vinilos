@@ -32,14 +32,7 @@ fun ArtistDetailScreen(navController: NavController, artist: Artist) {
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(text = "Artist Detail Screen")
-                Text(text = artist.name)
-            }
+            ArtistDetailHero(artist = artist)
         }
     }
 }
