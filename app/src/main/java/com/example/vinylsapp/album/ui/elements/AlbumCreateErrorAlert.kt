@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AlbumCreateErrorAlert(onDismiss: () -> Unit) {
     AlertDialog(
-        text = { Text("Ha ocurrido un error en el servidor, por favor intente nuevamente") },
+        text = { Text("Ha ocurrido un error en el servidor, por favor intente nuevamente.") },
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Error del servidor")

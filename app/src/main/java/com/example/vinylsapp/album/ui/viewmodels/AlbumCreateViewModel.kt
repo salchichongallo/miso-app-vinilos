@@ -40,33 +40,39 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
     fun updateAlbumName(name: String) {
         album = album.copy(name = name)
         albumErrors = albumErrors.copy(nameError = validateAlbumName(name))
+        verifyIfFormIsValid()
     }
 
     fun updateAlbumCover(cover: String) {
         album = album.copy(cover = cover)
         albumErrors = albumErrors.copy(coverError = validateAlbumCover(cover))
+        verifyIfFormIsValid()
     }
 
     fun updateAlbumReleaseDate(releaseDate: Date) {
         album = album.copy(releaseDate = releaseDate)
         albumErrors = albumErrors.copy(releaseDateError = validateAlbumReleaseDate(releaseDate))
+        verifyIfFormIsValid()
     }
 
     fun updateAlbumGenre(genre: AlbumGenre) {
         album = album.copy(genre = genre)
+        verifyIfFormIsValid()
     }
 
     fun updateAlbumRecordLabel(recordLabel: AlbumRecordLabel) {
         album = album.copy(recordLabel = recordLabel)
+        verifyIfFormIsValid()
     }
 
     fun updateAlbumDescription(description: String) {
         album = album.copy(description = description)
         albumErrors = albumErrors.copy(descriptionError = validateAlbumDescription(description))
+        verifyIfFormIsValid()
     }
 
     fun create() {
-        if (!verifiyIfFormIsValid()) return
+        if (!verifyIfFormIsValid()) return
         viewModelScope.launch {
             try {
                 albumRepository.add(album)
@@ -76,18 +82,25 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
                 showErrorDialog()
             }
         }
-
     }
 
-    private fun verifiyIfFormIsValid(): Boolean {
-        isFormValid = albumErrors.nameError == null &&
-                albumErrors.coverError == null &&
-                albumErrors.releaseDateError == null &&
-                albumErrors.descriptionError == null &&
-                album.genre != null &&
-                album.recordLabel != null
+    private fun verifyIfFormIsValid(): Boolean {
+        isFormValid = albumErrors.run {
+            nameError == null &&
+            coverError == null &&
+            releaseDateError == null &&
+            descriptionError == null
+        } && album.run {
+            name.isNotBlank() &&
+            cover.isNotBlank() &&
+            releaseDate != null &&
+            description.isNotBlank() &&
+            genre != null &&
+            recordLabel != null
+        }
         return isFormValid
     }
+
 
     private fun showSuccessDialog() {
         successDialogVisible = true

@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.runtime.LaunchedEffect
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +41,6 @@ fun AlbumReleaseDateField(
     value: Date? = null
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    val todayInMillis = System.currentTimeMillis()
     val datePickerState = rememberDatePickerState()
 
     Box(
@@ -51,7 +52,7 @@ fun AlbumReleaseDateField(
             value = value?.let { convertDateToString(it) } ?: "",
             onValueChange = { },
             label = { Text("Fecha de lanzamiento") },
-            placeholder = { Text("DD/MM/YYYY") },
+            placeholder = { Text("DD/MM/AAAA") },
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = !showDatePicker }) {
                     Icon(
@@ -88,9 +89,6 @@ fun AlbumReleaseDateField(
                     DatePicker(
                         state = datePickerState,
                         showModeToggle = false,
-                        dateValidator = { selectedMillis ->
-                            selectedMillis >= todayInMillis
-                        }
                     )
                 }
             }
@@ -98,15 +96,22 @@ fun AlbumReleaseDateField(
 
         LaunchedEffect(datePickerState.selectedDateMillis) {
             if (datePickerState.selectedDateMillis != null) {
-                val date = Date(datePickerState.selectedDateMillis!!)
-                onSelectedDate(date)
+                val calendar = Calendar.getInstance().apply {
+                    timeInMillis = datePickerState.selectedDateMillis!!
+                    add(Calendar.DAY_OF_MONTH, 1) // Sumamos un día
+                }
+                val adjustedDate = calendar.time
+                onSelectedDate(adjustedDate)
                 showDatePicker = false
             }
         }
+
     }
 }
 
 fun convertDateToString(date: Date): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(date)
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = date.time
+    return formatter.format(calendar.time)
 }

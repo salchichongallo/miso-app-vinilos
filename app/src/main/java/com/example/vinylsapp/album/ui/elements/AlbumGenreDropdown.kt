@@ -1,5 +1,7 @@
 package com.example.vinylsapp.album.ui.elements
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,9 @@ import com.example.vinylsapp.album.models.AlbumGenre
 fun AlbumGenreDropdown(selectedGenre: AlbumGenre?, onGenreSelected: (AlbumGenre) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var textFieldWidth by remember { mutableIntStateOf(0) }
+    val source = remember {
+        MutableInteractionSource()
+    }
 
     Box(
         modifier = Modifier
@@ -50,7 +55,11 @@ fun AlbumGenreDropdown(selectedGenre: AlbumGenre?, onGenreSelected: (AlbumGenre)
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Campo de género")
                 }
             },
+            interactionSource = source
         )
+        if (source.collectIsPressedAsState().value)
+            expanded = true
+
 
         DropdownMenu(
             modifier = Modifier

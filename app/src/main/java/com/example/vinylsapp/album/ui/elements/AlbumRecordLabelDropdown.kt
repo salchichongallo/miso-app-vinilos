@@ -1,5 +1,7 @@
 package com.example.vinylsapp.album.ui.elements
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,9 @@ import com.example.vinylsapp.album.models.AlbumRecordLabel
 fun AlbumRecordLabelDropdown(selectedLabel: AlbumRecordLabel?, onLabelSelected: (AlbumRecordLabel) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var textFieldWidth by remember { mutableIntStateOf(0) }
+    val source = remember {
+        MutableInteractionSource()
+    }
 
     Box {
         OutlinedTextField(
@@ -48,7 +53,10 @@ fun AlbumRecordLabelDropdown(selectedLabel: AlbumRecordLabel?, onLabelSelected: 
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Campo de sello discográfico")
                 }
             },
+            interactionSource = source
         )
+        if (source.collectIsPressedAsState().value)
+            expanded = true
 
         DropdownMenu(
             modifier = Modifier
