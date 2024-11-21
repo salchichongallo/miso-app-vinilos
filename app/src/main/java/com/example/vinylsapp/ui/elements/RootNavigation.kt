@@ -127,6 +127,7 @@ fun RootNavigation(
                     viewModel = ArtistAlbumViewModel(
                         artistRepo = artistRepository,
                         artistId = artistId,
+                        albumRepo = albumRepo
                     ),
                     navController = navController
                 )
