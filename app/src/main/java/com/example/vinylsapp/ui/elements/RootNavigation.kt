@@ -21,6 +21,7 @@ import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistAlbumScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistDetailScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
+import com.example.vinylsapp.artist.ui.viewmodels.ArtistAlbumViewModel
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistDetailViewModel
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.comment.repositories.CommentRepository
@@ -122,7 +123,13 @@ fun RootNavigation(
 
             composable(route = AppRoutes.ArtistAlbum.value) {
                 val artistId = it.arguments?.getString("artistId")?.toInt()!!
-                ArtistAlbumScreen(navController = navController)
+                ArtistAlbumScreen(
+                    viewModel = ArtistAlbumViewModel(
+                        artistRepo = artistRepository,
+                        artistId = artistId,
+                    ),
+                    navController = navController
+                )
             }
         }
     }
