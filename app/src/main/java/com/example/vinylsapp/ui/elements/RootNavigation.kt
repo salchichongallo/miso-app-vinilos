@@ -23,8 +23,10 @@ import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.IArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
+import com.example.vinylsapp.artist.ui.elements.ArtistAlbumScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistDetailScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
+import com.example.vinylsapp.artist.ui.viewmodels.ArtistAlbumViewModel
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistDetailViewModel
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
 import com.example.vinylsapp.comment.repositories.CommentRepository
@@ -61,7 +63,11 @@ fun RootNavigation(
             startDestination = AppRoutes.Login.value,
         ) {
             composable(route = AppRoutes.Albums.value) {
-                AlbumListScreen(viewModel = albumListViewModel, navController = navController, userViewModel = userViewModel)
+                AlbumListScreen(
+                    viewModel = albumListViewModel,
+                    navController = navController,
+                    userViewModel = userViewModel,
+                )
             }
 
             composable(route = AppRoutes.Artists.value) {
@@ -118,6 +124,7 @@ fun RootNavigation(
             composable(route = AppRoutes.ArtistDetail.value) {
                 val artistId = it.arguments?.getString("artistId")?.toInt()!!
                 ArtistDetailScreen(
+                    userViewModel = userViewModel,
                     viewModel = ArtistDetailViewModel(artistId, artistRepository),
                     navController = navController,
                 )
@@ -146,24 +153,13 @@ fun RootNavigation(
                 )
             }
 
-            composable(
-                route = AppRoutes.AlbumCreate.value,
-                enterTransition = {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(300, easing = EaseIn)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(300, easing = EaseIn)
-                    )
-                }
-            ) {
-                AlbumCreateScreen(
-                    viewModel = AlbumCreateViewModel(
-                        albumRepository = albumRepo
+            composable(route = AppRoutes.ArtistAlbum.value) {
+                val artistId = it.arguments?.getString("artistId")?.toInt()!!
+                ArtistAlbumScreen(
+                    viewModel = ArtistAlbumViewModel(
+                        artistRepo = artistRepository,
+                        artistId = artistId,
+                        albumRepo = albumRepo
                     ),
                     navController = navController
                 )

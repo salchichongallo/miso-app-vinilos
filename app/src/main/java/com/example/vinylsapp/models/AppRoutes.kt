@@ -17,6 +17,7 @@ enum class AppRoutes(val value: String) {
     CommentList("/albums/{id}/comments"),
     AlbumCreate("albums/new"),
     ArtistDetail("/artists/{artistId}"),
+    ArtistAlbum("/artists/{artistId}/albums?album={album}")
 }
 
 val topLevelRoutes = listOf(
@@ -43,4 +44,8 @@ fun buildCommentListScreenRoute(albumId: Int) = AppRoutes.CommentList.value.repl
 
 fun buildArtistDetailRoute(artist: Artist): String {
     return AppRoutes.ArtistDetail.value.replace("{artistId}", artist.id.toString())
+}
+
+fun buildArtistAlbumRoute(artistId: Int): String {
+    return AppRoutes.ArtistAlbum.value.replace("{artistId}", artistId.toString())
 }
