@@ -15,6 +15,7 @@ enum class AppRoutes(val value: String) {
     AlbumDetail("albums/{id}"),
     TrackCreate("/albums/new-track?album={album}"),
     CommentList("/albums/{id}/comments"),
+    AlbumCreate("albums/new"),
     ArtistDetail("/artists/{artistId}"),
     ArtistAlbum("/artists/{artistId}/albums?album={album}")
 }
