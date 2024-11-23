@@ -54,7 +54,11 @@ fun ArtistAlbumScreen(navController: NavController, viewModel: ArtistAlbumViewMo
         },
         bottomBar = { VinylsBottomAppBar(navController) },
     ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {
+        Surface(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -69,12 +73,14 @@ fun ArtistAlbumScreen(navController: NavController, viewModel: ArtistAlbumViewMo
                 )
                 Text(
                     text = "Agregar ${viewModel.artist?.name ?: "Seleccione el artista"} a álbum ${viewModel.selectedAlbum.value?.name ?: "'seleccione el álbum'"}",
-                    style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 16.dp)
                 )
 
                 Text("Seleccionar álbum", textAlign = TextAlign.Start, style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp) )
-                LazyColumn(){
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f),
+                ){
                     items(viewModel.albums.size){ index ->
                         AlbumPreviewItem(album = viewModel.albums[index], onSelect = {
                             viewModel.selectAlbum(album = viewModel.albums[index])

@@ -22,7 +22,7 @@ class ArtistAlbumViewModel(
     private val _selectedAlbum = mutableStateOf<Album?>(null)
     val selectedAlbum: State<Album?> = _selectedAlbum
     var artist by mutableStateOf<Artist?>(null)
-    var albums by mutableStateOf(listOf<Album>())
+    var albums by mutableStateOf<List<Album>>(emptyList())
     var isSuccessModalVisible by mutableStateOf(false)
     var isErrorModalVisible by mutableStateOf(false)
 
@@ -55,9 +55,14 @@ class ArtistAlbumViewModel(
 
     private fun loadArtistById(){
         viewModelScope.launch {
-            artistRepo.getBy(artistId).collect {
-                artist = it
+            try {
+                artistRepo.getBy(artistId).collect {
+                    artist = it
+                }
+            } catch (e: Exception) {
+                artist = null
             }
+
         }
     }
 
