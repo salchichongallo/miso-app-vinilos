@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter) :
     IArtistRepository {
@@ -30,5 +31,14 @@ class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter) 
 
     override suspend fun addToAlbum(artist: Artist, album: Album) {
         serviceAdapter.addToAlbum(artist.id, album.id)
+        artists.update { allArtists ->
+            allArtists.map { currentArtist ->
+                if (currentArtist.id == artist.id) {
+                    currentArtist.copy(albums = currentArtist.albums + album)
+                } else {
+                    currentArtist
+                }
+            }
+        }
     }
 }
