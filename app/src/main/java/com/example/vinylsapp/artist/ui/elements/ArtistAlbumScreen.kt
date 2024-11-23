@@ -1,7 +1,5 @@
 package com.example.vinylsapp.artist.ui.elements
 
-import android.webkit.WebSettings.TextSize
-import androidx.compose.animation.core.copy
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -32,7 +32,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil3.size.Size
 import com.example.vinylsapp.R
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistAlbumViewModel
 import com.example.vinylsapp.ui.elements.VinylsBottomAppBar
@@ -68,23 +67,32 @@ fun ArtistAlbumScreen(navController: NavController, viewModel: ArtistAlbumViewMo
                 Image(
                     painter = painterResource(id = R.drawable.music_placeholder),
                     contentDescription = "Ilustración de canción",
-                    modifier = Modifier.size(250.dp)
-                    .align(Alignment.CenterHorizontally)
+                    modifier = Modifier
+                        .size(250.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
                 Text(
                     text = "Agregar ${viewModel.artist?.name ?: "Seleccione el artista"} a álbum ${viewModel.selectedAlbum.value?.name ?: "'seleccione el álbum'"}",
-                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 16.dp)
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 16.dp)
                 )
 
-                Text("Seleccionar álbum", textAlign = TextAlign.Start, style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp) )
+                Text(
+                    "Seleccionar álbum",
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp)
+                )
+
+                val albums by viewModel.albums.collectAsState()
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f),
-                ){
-                    items(viewModel.albums.size){ index ->
-                        AlbumPreviewItem(album = viewModel.albums[index], onSelect = {
-                            viewModel.selectAlbum(album = viewModel.albums[index])
-                        }, isSelect = viewModel.albums[index] == viewModel.selectedAlbum.value)
+                ) {
+                    items(albums.size) { index ->
+                        AlbumPreviewItem(album = albums[index], onSelect = {
+                            viewModel.selectAlbum(album = albums[index])
+                        }, isSelect = albums[index] == viewModel.selectedAlbum.value)
                     }
                 }
 

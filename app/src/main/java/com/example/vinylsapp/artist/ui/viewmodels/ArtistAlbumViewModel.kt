@@ -15,32 +15,29 @@ import kotlinx.coroutines.launch
 class ArtistAlbumViewModel(
     private val artistRepo: IArtistRepository,
     private val artistId: Int,
-    private val albumRepo: IAlbumRepository
-
+    albumRepo: IAlbumRepository,
 ) : ViewModel() {
 
     private val _selectedAlbum = mutableStateOf<Album?>(null)
     val selectedAlbum: State<Album?> = _selectedAlbum
     var artist by mutableStateOf<Artist?>(null)
-    var albums by mutableStateOf<List<Album>>(emptyList())
+    val albums = albumRepo.getAll()
     var isSuccessModalVisible by mutableStateOf(false)
     var isErrorModalVisible by mutableStateOf(false)
 
     init {
         loadArtistById()
-        loadAlbums()
     }
 
     fun addToAlbum() {
         viewModelScope.launch {
-            if (selectedAlbum.value != null && artist != null){
+            if (selectedAlbum.value != null && artist != null) {
                 try {
                     artistRepo.addToAlbum(artist!!, selectedAlbum.value!!)
                     isSuccessModalVisible = true
                     isErrorModalVisible = false
                     _selectedAlbum.value = null
-                }
-                catch (e: Exception){
+                } catch (e: Exception) {
                     isErrorModalVisible = true
                     isSuccessModalVisible = false
                 }
@@ -53,7 +50,7 @@ class ArtistAlbumViewModel(
         _selectedAlbum.value = album
     }
 
-    private fun loadArtistById(){
+    private fun loadArtistById() {
         viewModelScope.launch {
             try {
                 artistRepo.getBy(artistId).collect {
@@ -61,17 +58,6 @@ class ArtistAlbumViewModel(
                 }
             } catch (e: Exception) {
                 artist = null
-            }
-
-        }
-    }
-
-    private fun loadAlbums() {
-        viewModelScope.launch {
-            albums = try {
-                albumRepo.getAll()
-            } catch (e: Exception) {
-                listOf()
             }
 
         }
