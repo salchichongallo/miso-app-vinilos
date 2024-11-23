@@ -1,6 +1,9 @@
 package com.example.vinylsapp.ui.elements
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,8 +14,10 @@ import com.example.vinylsapp.album.tracks.repositories.ITrackRepository
 import com.example.vinylsapp.album.tracks.ui.elements.TrackCreateScreen
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackCreateViewModel
 import com.example.vinylsapp.album.tracks.ui.viewmodels.TrackListViewModel
+import com.example.vinylsapp.album.ui.elements.AlbumCreateScreen
 import com.example.vinylsapp.album.ui.elements.AlbumDetailScreen
 import com.example.vinylsapp.album.ui.elements.AlbumListScreen
+import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
 import com.example.vinylsapp.artist.repositories.ArtistRepository
@@ -56,7 +61,7 @@ fun RootNavigation(
             startDestination = AppRoutes.Login.value,
         ) {
             composable(route = AppRoutes.Albums.value) {
-                AlbumListScreen(viewModel = albumListViewModel, navController = navController)
+                AlbumListScreen(viewModel = albumListViewModel, navController = navController, userViewModel = userViewModel)
             }
 
             composable(route = AppRoutes.Artists.value) {
@@ -115,6 +120,52 @@ fun RootNavigation(
                 ArtistDetailScreen(
                     viewModel = ArtistDetailViewModel(artistId, artistRepository),
                     navController = navController,
+                )
+            }
+
+            composable(
+                route = AppRoutes.AlbumCreate.value,
+                enterTransition = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                }
+            ) {
+                AlbumCreateScreen(
+                    viewModel = AlbumCreateViewModel(
+                        albumRepository = albumRepo
+                    ),
+                    navController = navController
+                )
+            }
+
+            composable(
+                route = AppRoutes.AlbumCreate.value,
+                enterTransition = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300, easing = EaseIn)
+                    )
+                }
+            ) {
+                AlbumCreateScreen(
+                    viewModel = AlbumCreateViewModel(
+                        albumRepository = albumRepo
+                    ),
+                    navController = navController
                 )
             }
         }
