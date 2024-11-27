@@ -1,5 +1,7 @@
 package com.example.vinylsapp.artist.models
 
+import com.example.vinylsapp.album.models.Album
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,4 +12,5 @@ data class Artist(
     val image: String,
     val description: String,
     val birthDate: String,
+    val albums: List<Album> = emptyList(),
 )
