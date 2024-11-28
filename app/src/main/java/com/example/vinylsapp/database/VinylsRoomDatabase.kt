@@ -4,27 +4,27 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.vinylsapp.artist.models.Artist
-import com.example.vinylsapp.database.dao.ArtistsDao
+import com.example.vinylsapp.database.dao.AlbumDao
+import com.example.vinylsapp.database.entities.AlbumEntity
 
-@Database(entities = [Artist::class], version = 1, exportSchema = false)
-abstract class VinylRoomDatabase : RoomDatabase() {
+@Database(entities = [AlbumEntity::class], version = 1)
+abstract class VinylsRoomDatabase : RoomDatabase() {
 
-    abstract fun artistsDao(): ArtistsDao
+    abstract fun albumDao(): AlbumDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: VinylRoomDatabase? = null
+        private var INSTANCE: VinylsRoomDatabase? = null
 
-        fun getDatabase(context: Context): VinylRoomDatabase {
+        fun getDatabase(context: Context): VinylsRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    VinylRoomDatabase::class.java,
+                    VinylsRoomDatabase::class.java,
                     "vinyls_database"
                 ).build()
                 INSTANCE = instance

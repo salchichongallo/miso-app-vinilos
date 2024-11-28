@@ -3,7 +3,6 @@ package com.example.vinylsapp.artist.repositories
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.artist.models.Artist
 import com.example.vinylsapp.artist.repositories.services.NetworkArtistServiceAdapter
-import com.example.vinylsapp.database.dao.ArtistsDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter, private val artistsDao: ArtistsDao) :
+class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter) :
     IArtistRepository {
 
     private val artists = MutableStateFlow(value = listOf<Artist>())
@@ -42,17 +41,4 @@ class ArtistRepository(private val serviceAdapter: NetworkArtistServiceAdapter, 
             }
         }
     }
-
-    override suspend fun refreshData(): List<Artist> {
-        try {
-            val cached = artistsDao.getAll()
-            return cached.ifEmpty {
-                getAll()
-            }
-        } catch (e: Exception) {
-            return getAll()
-        }
-    }
-
-
 }

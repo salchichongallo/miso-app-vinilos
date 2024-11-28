@@ -9,5 +9,4 @@ interface IArtistRepository {
     suspend fun fetchAll()
     suspend fun getBy(artistId: Int): StateFlow<Artist?>
     suspend fun addToAlbum(artist: Artist, album: Album)
-    suspend fun refreshData(): List<Artist>
 }

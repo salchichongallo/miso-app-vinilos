@@ -20,9 +20,7 @@ import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
-import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.IArtistRepository
-import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistAlbumScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistDetailScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
@@ -35,7 +33,6 @@ import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstan
 import com.example.vinylsapp.comment.ui.elements.CommentLitScreen
 import com.example.vinylsapp.comment.ui.viewmodels.CommentCreateViewModel
 import com.example.vinylsapp.comment.ui.viewmodels.CommentListViewModel
-import com.example.vinylsapp.database.dao.ArtistsDao
 import com.example.vinylsapp.login.repositories.IUserRepository
 import com.example.vinylsapp.login.repositories.UserRepository
 import com.example.vinylsapp.login.ui.elements.LoginScreen
@@ -54,7 +51,7 @@ fun RootNavigation(
     userRepository: IUserRepository = UserRepository(),
 ) {
     val navController = rememberNavController()
-    val albumListViewModel = AlbumListViewModel(albumRepo)
+    val albumListViewModel = AlbumListViewModel(albumRepo, null)
     val artistListViewModel = ArtistListViewModel(artistRepo = artistRepository)
     val userViewModel = UserViewModel(userRepo = userRepository)
 

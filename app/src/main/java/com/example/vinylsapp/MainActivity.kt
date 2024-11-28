@@ -13,23 +13,23 @@ import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.comment.repositories.CommentRepository
 import com.example.vinylsapp.comment.repositories.services.CommentRetrofitInstance
-import com.example.vinylsapp.database.VinylRoomDatabase
+import com.example.vinylsapp.database.VinylsRoomDatabase
 import com.example.vinylsapp.ui.elements.RootNavigation
 
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val database = VinylRoomDatabase.getDatabase(this)
+        val database = VinylsRoomDatabase.getDatabase(this)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService())
+        val albumRepo = AlbumRepository(serviceAdapter = RetrofitServiceFactory.makeAlbumService(), albumDao = database.albumDao())
         val trackRepository =
             TrackRepository(serviceAdapter = TrackRetrofitInstance.makeTrackService())
         val commentRepo =
             CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService())
-        val artistRepo = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService(), database.artistsDao())
+        val artistRepo = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService())
 
         setContent {
             RootNavigation(albumRepo, trackRepository, commentRepository = commentRepo, artistRepository = artistRepo)
