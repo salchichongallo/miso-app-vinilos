@@ -178,4 +178,30 @@ class ArtistTest {
         artistDetail.isDetailArtistDisplayed(artistMock2.name)
     }
 
+    @Test
+    fun shouldCancelArtistAssociation() {
+        val navigationPom = NavigationPom(composeTestRule)
+        val artistListMock = listOf(artistMock1)
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepositoryMock(listOf()),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(artistListMock)
+            )
+        }
+
+        login.loginAsCollector()
+        navigationPom.navigateToArtistScreen()
+
+        artistList.clickArtistItem(0)
+        artistDetail.isDetailArtistDisplayed(artistMock1.name)
+
+        composeTestRule.onNodeWithContentDescription("Agregar artista a álbum").performClick()
+        composeTestRule.onNodeWithText("Agregar artista a álbum").assertExists()
+        composeTestRule.onNodeWithContentDescription("Regresar").performClick()
+
+        artistDetail.isDetailArtistDisplayed(artistMock1.name)
+
+    }
+
 }
