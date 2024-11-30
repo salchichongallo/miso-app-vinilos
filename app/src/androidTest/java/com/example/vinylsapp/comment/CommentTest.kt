@@ -10,6 +10,7 @@ import com.example.vinylsapp.album.models.AlbumGenre
 import com.example.vinylsapp.album.pom.AlbumDetailPom
 import com.example.vinylsapp.album.pom.AlbumScreenPom
 import com.example.vinylsapp.album.tracks.mock.TrackRepositoryMock
+import com.example.vinylsapp.artist.mocks.ArtistRepositoryMock
 import com.example.vinylsapp.comment.mocks.CommentRepositoryMock
 import com.example.vinylsapp.comment.pom.CommentCreateFormPom
 import com.example.vinylsapp.comment.pom.CommentListScreenPom
@@ -62,7 +63,8 @@ class CommentTest {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(album)),
                 trackRepository = TrackRepositoryMock(mutableListOf()),
-                commentRepository = CommentRepositoryMock()
+                commentRepository = CommentRepositoryMock(),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 

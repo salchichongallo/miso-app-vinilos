@@ -8,6 +8,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.vinylsapp.artist.ui.viewmodels.ArtistListViewModel
@@ -25,12 +27,13 @@ fun ArtistListScreen(viewModel: ArtistListViewModel, navController: NavControlle
         bottomBar = { VinylsBottomAppBar(navController) }
     ) { innerPadding ->
         Surface(modifier = Modifier.padding(innerPadding)) {
-            if (viewModel.artists.isNotEmpty()) {
-                ArtistListItems(artists = viewModel.artists)
-            } else if (viewModel.loading) {
+            val artists by viewModel.artists.collectAsState()
+            if (viewModel.loading) {
                 Loader()
+            } else if (viewModel.hasError || artists.isEmpty()) {
+                EmptyArtists(onRetry = { viewModel.loadArtists() })
             } else {
-                EmptyArtists(onRetry = { viewModel.retry() })
+                ArtistListItems(artists = artists, navController = navController)
             }
         }
     }

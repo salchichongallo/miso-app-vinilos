@@ -3,13 +3,16 @@ package com.example.vinylsapp.album
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vinylsapp.album.mocks.AlbumRepositoryMock
 import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.models.AlbumGenre
+import com.example.vinylsapp.album.pom.AlbumNewFormPom
 import com.example.vinylsapp.album.pom.AlbumScreenPom
 import com.example.vinylsapp.album.tracks.mock.TrackRepositoryMock
+import com.example.vinylsapp.artist.mocks.ArtistRepositoryMock
 import com.example.vinylsapp.login.pom.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
@@ -22,6 +25,7 @@ import org.junit.runner.RunWith
 class AlbumTest {
     private lateinit var login: LoginPom
     private lateinit var albumList: AlbumScreenPom
+    private lateinit var albumNewForm: AlbumNewFormPom
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -30,6 +34,7 @@ class AlbumTest {
     fun setUp() {
         login = LoginPom(composeTestRule)
         albumList = AlbumScreenPom(composeTestRule)
+        albumNewForm = AlbumNewFormPom(composeTestRule)
     }
 
     @After
@@ -50,7 +55,8 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(album)),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
@@ -91,6 +97,7 @@ class AlbumTest {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock1, albumMock2)),
                 trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
@@ -128,6 +135,7 @@ class AlbumTest {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock)),
                 trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
@@ -137,5 +145,44 @@ class AlbumTest {
         val detail = album.click()
         detail.screen().assertIsDisplayed()
         detail.verifyEmptyTracks()
+    }
+
+    @Test
+    fun createAlbumSuccessfully() {
+        val albumName = "Album 1 de prueba"
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepositoryMock(listOf()),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
+            )
+        }
+
+        login.loginAsCollector()
+        albumNewForm.clickOnCreate()
+        albumNewForm.enterForm(albumName)
+        albumNewForm.clickOnSave()
+        composeTestRule.onNodeWithContentDescription("Regresar").performClick()
+
+        composeTestRule.onNodeWithText(albumName).assertIsDisplayed()
+    }
+
+    @Test
+    fun noCreateAlbumWithoutSave() {
+        val albumName = "Album 2 de prueba"
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepositoryMock(listOf()),
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
+            )
+        }
+
+        login.loginAsCollector()
+        albumNewForm.clickOnCreate()
+        albumNewForm.enterForm(albumName)
+        composeTestRule.onNodeWithContentDescription("Regresar").performClick()
+
+        composeTestRule.onNodeWithText(albumName).assertDoesNotExist()
     }
 }

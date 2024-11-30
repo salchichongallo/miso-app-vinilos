@@ -11,6 +11,7 @@ import com.example.vinylsapp.album.models.AlbumGenre
 import com.example.vinylsapp.album.pom.AlbumScreenPom
 import com.example.vinylsapp.album.tracks.mock.TrackRepositoryMock
 import com.example.vinylsapp.album.tracks.pom.TrackCreateFormPom
+import com.example.vinylsapp.artist.mocks.ArtistRepositoryMock
 import com.example.vinylsapp.login.pom.LoginPom
 import com.example.vinylsapp.ui.elements.RootNavigation
 import org.junit.After
@@ -55,7 +56,8 @@ class TrackTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock)),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
@@ -82,7 +84,8 @@ class TrackTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf(albumMock)),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
         login.loginAsCollector()

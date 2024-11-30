@@ -1,16 +1,13 @@
 package com.example.vinylsapp.album.ui.viewmodels
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.vinylsapp.album.models.Album
 import com.example.vinylsapp.album.repositories.IAlbumRepository
 import kotlinx.coroutines.launch
 
 class AlbumListViewModel(private val albumRepo: IAlbumRepository) : ViewModel() {
-    var albums by mutableStateOf(listOf<Album>())
+    val albums = albumRepo.getAll()
 
     init {
         load()
@@ -18,10 +15,10 @@ class AlbumListViewModel(private val albumRepo: IAlbumRepository) : ViewModel() 
 
     private fun load() {
         viewModelScope.launch {
-            albums = try {
-                albumRepo.getAll()
-            } catch (e: Exception) {
-                listOf()
+            try {
+                albumRepo.fetchAll()
+            } catch (error: Exception) {
+                Log.e("album", "Could not fetch albums", error)
             }
         }
     }
