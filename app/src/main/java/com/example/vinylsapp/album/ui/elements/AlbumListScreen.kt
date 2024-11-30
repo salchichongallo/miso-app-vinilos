@@ -45,7 +45,7 @@ fun AlbumListScreen(
                     icon = {
                         Icon(
                             Icons.Filled.Add,
-                            contentDescription = "Comentar"
+                            contentDescription = "Agregar álbum",
                         )
                     },
                     text = { Text(text = "Álbum") },
