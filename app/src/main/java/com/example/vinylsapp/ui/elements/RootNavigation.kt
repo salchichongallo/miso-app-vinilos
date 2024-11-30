@@ -51,7 +51,7 @@ fun RootNavigation(
     userRepository: IUserRepository = UserRepository(),
 ) {
     val navController = rememberNavController()
-    val albumListViewModel = AlbumListViewModel(albumRepo, null)
+    val albumListViewModel = AlbumListViewModel(albumRepo)
     val artistListViewModel = ArtistListViewModel(artistRepo = artistRepository)
     val userViewModel = UserViewModel(userRepo = userRepository)
 

@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vinylsapp.album.models.AlbumErrors
-import com.example.vinylsapp.album.models.AlbumNew
 import com.example.vinylsapp.album.models.AlbumGenre
+import com.example.vinylsapp.album.models.AlbumNew
 import com.example.vinylsapp.album.models.AlbumRecordLabel
 import com.example.vinylsapp.album.repositories.IAlbumRepository
 import com.example.vinylsapp.album.utils.validators.validateAlbumCover
@@ -32,10 +32,8 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
             description = ""
         )
     )
-        private set
 
     var albumErrors by mutableStateOf(AlbumErrors())
-        private set
 
     fun updateAlbumName(name: String) {
         album = album.copy(name = name)
@@ -87,16 +85,16 @@ class AlbumCreateViewModel(private val albumRepository: IAlbumRepository) : View
     private fun verifyIfFormIsValid(): Boolean {
         isFormValid = albumErrors.run {
             nameError == null &&
-            coverError == null &&
-            releaseDateError == null &&
-            descriptionError == null
+                    coverError == null &&
+                    releaseDateError == null &&
+                    descriptionError == null
         } && album.run {
             name.isNotBlank() &&
-            cover.isNotBlank() &&
-            releaseDate != null &&
-            description.isNotBlank() &&
-            genre != null &&
-            recordLabel != null
+                    cover.isNotBlank() &&
+                    releaseDate != null &&
+                    description.isNotBlank() &&
+                    genre != null &&
+                    recordLabel != null
         }
         return isFormValid
     }
