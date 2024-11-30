@@ -20,9 +20,7 @@ import com.example.vinylsapp.album.ui.elements.AlbumListScreen
 import com.example.vinylsapp.album.ui.viewmodels.AlbumCreateViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinylsapp.album.ui.viewmodels.AlbumListViewModel
-import com.example.vinylsapp.artist.repositories.ArtistRepository
 import com.example.vinylsapp.artist.repositories.IArtistRepository
-import com.example.vinylsapp.artist.repositories.services.ArtistRetrofitInstance
 import com.example.vinylsapp.artist.ui.elements.ArtistAlbumScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistDetailScreen
 import com.example.vinylsapp.artist.ui.elements.ArtistListScreen
@@ -48,12 +46,12 @@ import com.google.gson.Gson
 fun RootNavigation(
     albumRepo: IAlbumRepository,
     trackRepository: ITrackRepository,
-    artistRepository: IArtistRepository = ArtistRepository(serviceAdapter = ArtistRetrofitInstance.makeArtistService()),
+    artistRepository: IArtistRepository,
     commentRepository: ICommentRepository = CommentRepository(serviceAdapter = CommentRetrofitInstance.makeCommentService()),
     userRepository: IUserRepository = UserRepository(),
 ) {
     val navController = rememberNavController()
-    val albumListViewModel = AlbumListViewModel(albumRepo)
+    val albumListViewModel = AlbumListViewModel(albumRepo, null)
     val artistListViewModel = ArtistListViewModel(artistRepo = artistRepository)
     val userViewModel = UserViewModel(userRepo = userRepository)
 
