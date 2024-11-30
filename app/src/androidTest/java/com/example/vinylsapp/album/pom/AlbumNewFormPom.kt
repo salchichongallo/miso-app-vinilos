@@ -45,15 +45,20 @@ class AlbumNewFormPom(
     }
 
     private fun enterReleaseDate() {
-        val nextDate = getNextDayFormatted()
+        val nextDate = getTodayFormatted()
         rule.onNodeWithContentDescription("Select date").performClick()
         rule.onAllNodesWithText(nextDate).onLast().performClick()
     }
 
-    private fun getNextDayFormatted(): String {
-        val nextDay = LocalDate.now().plusDays(1)
-        val formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy")
-        return nextDay.format(formatter)
+    private fun getTodayFormatted(): String {
+        val today = LocalDate.now()
+        val dayOfWeekFormatter = DateTimeFormatter.ofPattern("EEEE")
+        val dateFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+
+        val dayOfWeek = today.format(dayOfWeekFormatter)
+        val formattedDate = today.format(dateFormatter)
+
+        return "Today, $dayOfWeek, $formattedDate"
     }
 
     fun enterForm(albumName: String) {

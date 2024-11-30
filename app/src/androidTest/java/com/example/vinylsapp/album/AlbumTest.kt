@@ -161,4 +161,22 @@ class AlbumTest {
 
         composeTestRule.onNodeWithText(albumName).assertIsDisplayed()
     }
+
+    @Test
+    fun noCreateAlbumWithoutSave() {
+        val albumName = "Album 2 de prueba"
+        composeTestRule.setContent {
+            RootNavigation(
+                albumRepo = AlbumRepositoryMock(listOf()),
+                trackRepository = TrackRepositoryMock(mutableListOf())
+            )
+        }
+
+        login.loginAsCollector()
+        albumNewForm.clickOnCreate()
+        albumNewForm.enterForm(albumName)
+        composeTestRule.onNodeWithContentDescription("Regresar").performClick()
+
+        composeTestRule.onNodeWithText(albumName).assertDoesNotExist()
+    }
 }
