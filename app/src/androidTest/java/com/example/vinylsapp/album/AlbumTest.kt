@@ -153,7 +153,8 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
@@ -172,7 +173,8 @@ class AlbumTest {
         composeTestRule.setContent {
             RootNavigation(
                 albumRepo = AlbumRepositoryMock(listOf()),
-                trackRepository = TrackRepositoryMock(mutableListOf())
+                trackRepository = TrackRepositoryMock(mutableListOf()),
+                artistRepository = ArtistRepositoryMock(mutableListOf())
             )
         }
 
